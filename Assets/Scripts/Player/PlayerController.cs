@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isDown;
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
+
+    [HideInInspector] public PlayerController revivingPlayer;
     
     // Health Variables
     int currentHealth;
@@ -338,13 +340,13 @@ public class PlayerController : MonoBehaviour
     void ReviveAction()
     {
         // If the downed player is not equal to null
-        if (downedPlayer != null)
+        if (revivingPlayer != null)
         {
             // Gets reference to downed player's revive bar
-            Slider bar = downedPlayer.reviveBar;
+            Slider bar = reviveBar;
 
             // If the player holds the X button on the downed player...
-            if (XCI.GetButton(XboxButton.X, player) && downedPlayer != null)
+            if (XCI.GetButton(XboxButton.X, revivingPlayer.player))
             {
 
                 // Slowly increase the bar
@@ -352,15 +354,19 @@ public class PlayerController : MonoBehaviour
                 if (bar.value >= bar.maxValue)
                 {
                     // If the bar is filled, the player is revived and the bar is reset
-                    downedPlayer.RevivePlayer(true);
+                    RevivePlayer(true);
                     bar.value = bar.minValue;
-                    downedPlayer = null;
+                    revivingPlayer = null;
                 }
             }
             else
             {
                 // If the button is let go, the progress is reset
-                bar.value = bar.minValue;
+                bar.value -= 0.0025f;
+                if(bar.value <= bar.minValue)
+                {
+                    bar.value = bar.minValue;
+                }
             }
         }
     }
@@ -371,7 +377,7 @@ public class PlayerController : MonoBehaviour
         {
             if (other.tag == "Player" && isDown)
             {
-                other.GetComponent<PlayerController>().downedPlayer = this;
+                revivingPlayer = other.GetComponent<PlayerController>();
             }
         }
         // else if (ConeCollider)

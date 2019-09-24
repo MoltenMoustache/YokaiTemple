@@ -26,7 +26,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        players = GameObject.FindGameObjectsWithTag("Player");
         cam = Camera.main;
         currentHealth = maxHealth;
     }
@@ -34,6 +33,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
         GetClosestPlayer();
 
         if (target != null)

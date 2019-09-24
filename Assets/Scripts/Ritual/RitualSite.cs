@@ -197,7 +197,7 @@ public class RitualSite : MonoBehaviour
                 DisplayButton();
                 // Fades the button
                 imageColour.a -= 0.0175f;
-                if(imageColour.a <= 0)
+                if(imageColour.a <= 0 && playerInRange.isCasting)
                 {
                     WrongButton();
                 }

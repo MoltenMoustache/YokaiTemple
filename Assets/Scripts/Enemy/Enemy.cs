@@ -35,6 +35,13 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         GetClosestPlayer();
+
+        if (target != null)
+            OnUpdate();
+    }
+
+    void OnUpdate()
+    {
         if (attackCooldown > 0)
         {
             attackCooldown -= Time.deltaTime;
@@ -45,18 +52,6 @@ public class Enemy : MonoBehaviour
             attackCooldown = 0;
         }
         float distance = Vector3.Distance(target.position, transform.position);
-
-        //if(Input.GetMouseButtonDown(0))
-        //{
-
-        //    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        agent.SetDestination(hit.point);
-        //    }
-        //}
 
         if (distance <= lookRadius)
         {
@@ -71,12 +66,18 @@ public class Enemy : MonoBehaviour
         {
             if (attackCooldown == 0)
             {
-                player.TakeDamage(damage);
+                player.TakeDamage(this, damage);
                 attackCooldown++;
 
             }
 
         }
+    }
+
+    public void ClearTarget()
+    {
+        target = null;
+        player = null;
     }
 
     public void TakeDamage(int a_dmg)
@@ -98,18 +99,27 @@ public class Enemy : MonoBehaviour
         float distance = Mathf.Infinity;
         foreach (GameObject play in players)
         {
-            player = play.GetComponent<PlayerController>();
-            float playerDistance = Vector3.Distance(transform.position, player.transform.position);
-            if (playerDistance < distance)
+            if (!play.GetComponent<PlayerController>().isDown)
             {
-                target = play.transform;
                 player = play.GetComponent<PlayerController>();
-                distance = playerDistance;
+                float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+                if (playerDistance < distance)
+                {
+                    target = play.transform;
+                    distance = playerDistance;
+                }
             }
-
         }
 
-        targetPos = target.transform.position;
+        if (target != null)
+        {
+            targetPos = target.transform.position;
+        }
+        else
+        {
+            Debug.Log("Game Lost");
+            Time.timeScale = 0;
+        }
     }
 
     void OnDrawGizmosSelected()

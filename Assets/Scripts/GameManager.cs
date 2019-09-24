@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Checkpoint[] checkpoints;
     GameObject[] checkpointObjects;
     [SerializeField] GameObject[] players;
+    GameObject[] currentPlayers;
+    int currentPlayerCount;
 
     // Start is called before the first frame update
     void Start()
@@ -54,14 +56,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (XCI.GetNumPluggedCtrlrs() > 0)
+        if (XCI.GetNumPluggedCtrlrs() != currentPlayerCount)
         {
+            currentPlayers = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < XCI.GetNumPluggedCtrlrs(); i++)
             {
                 players[i].GetComponent<PlayerController>().JoinGame();
             }
 
             UpdatePlayerCount();
+            currentPlayerCount = XCI.GetNumPluggedCtrlrs();
         }
     }
 
@@ -85,6 +89,14 @@ public class GameManager : MonoBehaviour
         progressBar.value = ritualProgress;
 
         if (ritualProgress >= maxRitual)
+        {
+            EndGame(true);
+        }
+    }
+
+    void EndGame(bool a_didWin)
+    {
+        if (a_didWin)
         {
             Time.timeScale = 0;
             GameObject[] yokai = GameObject.FindGameObjectsWithTag("Enemy");

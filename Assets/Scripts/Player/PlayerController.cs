@@ -128,6 +128,10 @@ public class PlayerController : MonoBehaviour
         {
             LeaveGame();
         }
+        else if (!hasJoined)
+        {
+            JoinGame();
+        }
 
         // Allows revival
         ReviveAction();
@@ -400,6 +404,33 @@ public class PlayerController : MonoBehaviour
             currentHealth = 0;
             DownPlayer();
         }
+
+        Debug.Log("Damage taken:" + a_dmg.ToString());
+        Debug.Log("Health remaining:" + currentHealth.ToString());
+
+        foreach (GameObject icon in healthIcons)
+        {
+            icon.SetActive(false);
+        }
+
+        for (int i = 0; i < currentHealth; i++)
+        {
+            healthIcons[i].SetActive(true);
+        }
+    }
+
+    public void TakeDamage(Enemy a_attacker, int a_dmg = 1)
+    {
+        currentHealth -= a_dmg;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            DownPlayer();
+            a_attacker.ClearTarget();
+        }
+
+        Debug.Log("Damage taken:" + a_dmg.ToString());
+        Debug.Log("Health remaining:" + currentHealth.ToString());
 
         foreach (GameObject icon in healthIcons)
         {

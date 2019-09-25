@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     Slider reviveBar;
 
     [HideInInspector] public PlayerController revivingPlayer;
-    
+
     // Health Variables
     int currentHealth;
     [SerializeField] int maxHealth;
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         // Gets the axis
         verticalAxis = XCI.GetAxis(XboxAxis.LeftStickY, player);
         horizontalAxis = XCI.GetAxis(XboxAxis.LeftStickX, player);
-        
+
 
         animator.SetFloat("Movement", Mathf.Abs(verticalAxis + horizontalAxis));
 
@@ -363,7 +363,7 @@ public class PlayerController : MonoBehaviour
             {
                 // If the button is let go, the progress is reset
                 bar.value -= 0.0025f;
-                if(bar.value <= bar.minValue)
+                if (bar.value <= bar.minValue)
                 {
                     bar.value = bar.minValue;
                 }
@@ -471,6 +471,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Attack()
     {
+        // The player can't attack until...
+        canAttack = false;
+        animator.SetBool("isAttacking", true);
+
+        yield return new WaitForSeconds(0.25f);
+
+
         // Check if enemies are within the cone...
         if (attackCone.enemiesInRange.Count > 0)
         {
@@ -496,16 +503,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // The player can't attack until...
-        canAttack = false;
-        animator.SetBool("isAttacking", !canAttack);
+        yield return new WaitForSeconds(0.25f);
+        animator.SetBool("isAttacking", false);
 
         // the cooldown has finished
         yield return new WaitForSeconds(attackDelay);
 
         // the player can now attack
         canAttack = true;
-        animator.SetBool("isAttacking", !canAttack);
 
     }
 }

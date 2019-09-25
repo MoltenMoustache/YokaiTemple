@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     GameObject[] currentPlayers;
     int currentPlayerCount;
 
+    // Pause Menu
+    [SerializeField] GameObject pausePanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +69,11 @@ public class GameManager : MonoBehaviour
 
             UpdatePlayerCount();
             currentPlayerCount = XCI.GetNumPluggedCtrlrs();
+        }
+
+        if(XCI.GetButtonDown(XboxButton.Start, XboxController.All))
+        {
+            PauseGame(!pausePanel.activeSelf);
         }
     }
 
@@ -115,6 +123,20 @@ public class GameManager : MonoBehaviour
             ritualProgress = 0;
 
         progressBar.value = ritualProgress;
+    }
+
+    void PauseGame(bool a_pause)
+    {
+        if (a_pause)
+        {
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
+        }
     }
 
     //public bool CheckWin()

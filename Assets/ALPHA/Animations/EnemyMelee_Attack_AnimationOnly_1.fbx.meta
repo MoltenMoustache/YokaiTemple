@@ -1,24 +1,48 @@
 fileFormatVersion: 2
-guid: 9c9c96a1316d87348ba4c11d3019d041
+guid: 6c3d4b6f036f9ee4cb59345efd795382
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Arm_L_ctrl
-    100002: Arm_R
-    100004: Elbow_L
-    100006: Elbow_R
-    100008: //RootNode
-    100010: Neck_ctrl
-    100012: Shoulders_ctrl
-    100014: Waist_ctrl
-    400000: Arm_L_ctrl
-    400002: Arm_R
-    400004: Elbow_L
-    400006: Elbow_R
-    400008: //RootNode
-    400010: Neck_ctrl
-    400012: Shoulders_ctrl
-    400014: Waist_ctrl
+    100000: Arm_L
+    100002: Arm_L_ctrl
+    100004: Arm_R
+    100006: Arm_R 1
+    100008: Elbow_L
+    100010: Elbow_L 1
+    100012: Elbow_R
+    100014: Elbow_R 1
+    100016: //RootNode
+    100018: Hand_L
+    100020: Hand_R
+    100022: Neck
+    100024: Neck_ctrl
+    100026: root
+    100028: Root__ctrl
+    100030: Shoulder
+    100032: Shoulders_ctrl
+    100034: Skeleton_DontTouch
+    100036: Waist
+    100038: Waist_ctrl
+    400000: Arm_L
+    400002: Arm_L_ctrl
+    400004: Arm_R
+    400006: Arm_R 1
+    400008: Elbow_L
+    400010: Elbow_L 1
+    400012: Elbow_R
+    400014: Elbow_R 1
+    400016: //RootNode
+    400018: Hand_L
+    400020: Hand_R
+    400022: Neck
+    400024: Neck_ctrl
+    400026: root
+    400028: Root__ctrl
+    400030: Shoulder
+    400032: Shoulders_ctrl
+    400034: Skeleton_DontTouch
+    400036: Waist
+    400038: Waist_ctrl
     7400000: Take 001
     9500000: //RootNode
   externalObjects: {}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e1019ec29415efc47aa907c85da9bec6
+guid: 37e6fbb2fc9f97347a269b5102717c33
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -14,18 +14,17 @@ ModelImporter:
     100016: //RootNode
     100018: Hand_L
     100020: Hand_R
-    100022: HITAIKAKUSHI
+    100022: Hitaikushi
     100024: Neck
     100026: Neck_ctrl
-    100028: pasted__pPlane1
-    100030: Platers
-    100032: root
-    100034: Root__ctrl
-    100036: Shoulder
-    100038: Shoulders_ctrl
-    100040: Skeleton_DontTouch
-    100042: Waist
-    100044: Waist_ctrl
+    100028: Platers
+    100030: root
+    100032: Root__ctrl
+    100034: Shoulder
+    100036: Shoulders_ctrl
+    100038: Skeleton_DontTouch
+    100040: Waist
+    100042: Waist_ctrl
     400000: Arm_L
     400002: Arm_L_ctrl
     400004: Arm_R
@@ -37,28 +36,25 @@ ModelImporter:
     400016: //RootNode
     400018: Hand_L
     400020: Hand_R
-    400022: HITAIKAKUSHI
+    400022: Hitaikushi
     400024: Neck
     400026: Neck_ctrl
-    400028: pasted__pPlane1
-    400030: Platers
-    400032: root
-    400034: Root__ctrl
-    400036: Shoulder
-    400038: Shoulders_ctrl
-    400040: Skeleton_DontTouch
-    400042: Waist
-    400044: Waist_ctrl
+    400028: Platers
+    400030: root
+    400032: Root__ctrl
+    400034: Shoulder
+    400036: Shoulders_ctrl
+    400038: Skeleton_DontTouch
+    400040: Waist
+    400042: Waist_ctrl
     2100000: lambert1
     2100002: lambert2
     2100004: pasted__HITAIKAKUSHI
-    2300000: pasted__pPlane1
-    3300000: pasted__pPlane1
     4300000: Platers
-    4300002: pasted__pPlane1
-    7400000: Take 001
+    4300002: Hitaikushi
     9500000: //RootNode
-    13700000: Platers
+    13700000: Hitaikushi
+    13700002: Platers
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -86,35 +82,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Take 001
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 60
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []

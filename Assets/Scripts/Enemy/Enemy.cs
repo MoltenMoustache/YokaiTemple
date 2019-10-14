@@ -37,7 +37,12 @@ public class Enemy : MonoBehaviour
         GetClosestPlayer();
 
         if (target != null)
+        {
             OnUpdate();
+            Transform targetTransform = null;
+            targetTransform.position = new Vector3(target.transform.position.x, 0, target.transform.position.z);
+            transform.LookAt(targetTransform);
+        }
     }
 
     void OnUpdate()

@@ -1,50 +1,14 @@
 fileFormatVersion: 2
-guid: 9c9c96a1316d87348ba4c11d3019d041
+guid: fd54c7edafbebbf4e9f307914e191f1e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Arm_L
-    100002: Arm_L_ctrl
-    100004: Arm_R
-    100006: Arm_R 1
-    100008: Elbow_L
-    100010: Elbow_L 1
-    100012: Elbow_R
-    100014: Elbow_R 1
-    100016: //RootNode
-    100018: Hand_L
-    100020: Hand_R
-    100022: Neck
-    100024: Neck_ctrl
-    100026: root
-    100028: Root__ctrl
-    100030: Shoulder
-    100032: Shoulders_ctrl
-    100034: Skeleton_DontTouch
-    100036: Waist
-    100038: Waist_ctrl
-    400000: Arm_L
-    400002: Arm_L_ctrl
-    400004: Arm_R
-    400006: Arm_R 1
-    400008: Elbow_L
-    400010: Elbow_L 1
-    400012: Elbow_R
-    400014: Elbow_R 1
-    400016: //RootNode
-    400018: Hand_L
-    400020: Hand_R
-    400022: Neck
-    400024: Neck_ctrl
-    400026: root
-    400028: Root__ctrl
-    400030: Shoulder
-    400032: Shoulders_ctrl
-    400034: Skeleton_DontTouch
-    400036: Waist
-    400038: Waist_ctrl
-    7400000: Take 001
-    9500000: //RootNode
+    100000: //RootNode
+    400000: //RootNode
+    2100000: lambert1
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pPlane2
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -97,8 +61,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -125,7 +89,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

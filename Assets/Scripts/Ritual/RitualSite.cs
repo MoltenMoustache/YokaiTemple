@@ -23,7 +23,9 @@ public class RitualSite : MonoBehaviour
     [SerializeField] int ritualIncrement;
     [SerializeField] int ritualDecrement;
 
-    PlayerController playerInRange;
+    List<PlayerController> playersInRange = new List<PlayerController>();
+
+    PlayerController castingPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -34,88 +36,83 @@ public class RitualSite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInRange != null)
-        {
-            if (!playerInRange.isCasting)
-            {
-                Vector3 offset = new Vector3(0f, 60f, 0f);
-                buttonPrompt.transform.position = Camera.main.WorldToScreenPoint(playerInRange.transform.position);
-                buttonPrompt.transform.position += offset;
-                buttonPrompt.rectTransform.sizeDelta = new Vector2(60, 60);
-            }
+        //if (castingPlayer != null)
+        //{
+        //    //if (!castingPlayer.isCasting)
+        //    //{
+        //    //    Vector3 offset = new Vector3(0f, 60f, 0f);
+        //    //    buttonPrompt.transform.position = Camera.main.WorldToScreenPoint(castingPlayer.transform.position);
+        //    //    buttonPrompt.transform.position += offset;
+        //    //    buttonPrompt.rectTransform.sizeDelta = new Vector2(60, 60);
+        //    //}
+        //}
 
-            if (XCI.GetButtonUp(XboxButton.X, playerInRange.player) && !playerInRange.isCasting)
-            {
-                StartRitual();
-            }
-
-            if (currentButton != null)
-            {
-                if (XCI.GetAxis(XboxAxis.LeftStickX, playerInRange.player) > 0.5 || XCI.GetAxis(XboxAxis.LeftStickY, playerInRange.player) > 0.5 ||
-                    XCI.GetAxis(XboxAxis.LeftStickX, playerInRange.player) < -0.4 || XCI.GetAxis(XboxAxis.LeftStickY, playerInRange.player) < -0.4)
-                {
-                    StopRitual();
-                }
-            }
-        }
         QueryButton();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && playerInRange == null)
+        if (other.tag == "Player")
         {
-            buttonPrompt.sprite = baseKeys[2].icon;
-
-            if (!other.GetComponent<PlayerController>().hasFinishedRitual)
-            {
-                playerInRange = other.GetComponent<PlayerController>();
-                buttonPrompt.enabled = true;
-                imageColour.a = 255;
-                buttonPrompt.color = imageColour;
-            }
+            other.GetComponent<PlayerController>().IsInRitual(true, this);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerController>() == playerInRange)
+        if (other.tag == "Player")
         {
-            playerInRange = null;
-            buttonPrompt.sprite = null;
-            buttonPrompt.enabled = false;
-            currentButton = null;
+            other.GetComponent<PlayerController>().IsInRitual(false, this);
         }
     }
 
-    void StartRitual()
+    public bool PlayerCasting()
     {
-        // Moves player to center of ritual site
-        playerInRange.transform.position = new Vector3(transform.position.x, playerInRange.transform.position.y, transform.position.z);
-        playerInRange.isCasting = true;
-        playerInRange.GetComponent<Rigidbody>().isKinematic = true;
-
-        buttonPrompt.enabled = true;
-        imageColour.a = 1;
-        currentButton = baseKeys[Random.Range(0, baseKeys.Count)];
-
-        Vector3 offset = new Vector3(0f, 100f, 0f);
-        buttonPrompt.transform.position = Camera.main.WorldToScreenPoint(playerInRange.transform.position);
-        buttonPrompt.transform.position += offset;
-        buttonPrompt.rectTransform.sizeDelta = new Vector2(100, 100);
+        if (castingPlayer)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    void StopRitual()
+    public bool StartRitual(PlayerController a_player)
     {
-        playerInRange.isCasting = false;
-        playerInRange.GetComponent<Rigidbody>().isKinematic = false;
+        if (castingPlayer == null)
+        {
+            Debug.Log("Ritual Started");
+            castingPlayer = a_player;
 
+            // Moves player to center of ritual site
+            castingPlayer.transform.position = new Vector3(transform.position.x, castingPlayer.transform.position.y, transform.position.z);
+
+            buttonPrompt.enabled = true;
+            imageColour.a = 1;
+            currentButton = baseKeys[Random.Range(0, baseKeys.Count)];
+
+            Vector3 offset = new Vector3(0f, 100f, 0f);
+            buttonPrompt.transform.position = Camera.main.WorldToScreenPoint(castingPlayer.transform.position);
+            buttonPrompt.transform.position += offset;
+            buttonPrompt.rectTransform.sizeDelta = new Vector2(100, 100);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void StopRitual()
+    {
         GetComponent<Renderer>().material.color = materialColour;
 
         currentButton = null;
         buttonPrompt.sprite = null;
         buttonPrompt.enabled = false;
         imageColour.a -= 0;
+        castingPlayer = null;
     }
 
     void PressButton()
@@ -123,7 +120,7 @@ public class RitualSite : MonoBehaviour
         if (currentButton != null)
         {
             // Right button
-            if (XCI.GetButtonDown(currentButton.button, playerInRange.player))
+            if (XCI.GetButtonDown(currentButton.button, castingPlayer.player))
             {
                 if (GameManager.instance.ritualProgress < GameManager.instance.maxRitual)
                 {
@@ -141,25 +138,25 @@ public class RitualSite : MonoBehaviour
                 switch (currentButton.button)
                 {
                     case XboxButton.A:
-                        if (XCI.GetButtonDown(XboxButton.B, playerInRange.player) || XCI.GetButtonDown(XboxButton.X, playerInRange.player) || XCI.GetButtonDown(XboxButton.Y, playerInRange.player))
+                        if (XCI.GetButtonDown(XboxButton.B, castingPlayer.player) || XCI.GetButtonDown(XboxButton.X, castingPlayer.player) || XCI.GetButtonDown(XboxButton.Y, castingPlayer.player))
                         {
                             WrongButton();
                         }
                         break;
                     case XboxButton.B:
-                        if (XCI.GetButtonDown(XboxButton.A, playerInRange.player) || XCI.GetButtonDown(XboxButton.X, playerInRange.player) || XCI.GetButtonDown(XboxButton.Y, playerInRange.player))
+                        if (XCI.GetButtonDown(XboxButton.A, castingPlayer.player) || XCI.GetButtonDown(XboxButton.X, castingPlayer.player) || XCI.GetButtonDown(XboxButton.Y, castingPlayer.player))
                         {
                             WrongButton();
                         }
                         break;
                     case XboxButton.X:
-                        if (XCI.GetButtonDown(XboxButton.B, playerInRange.player) || XCI.GetButtonDown(XboxButton.A, playerInRange.player) || XCI.GetButtonDown(XboxButton.Y, playerInRange.player))
+                        if (XCI.GetButtonDown(XboxButton.B, castingPlayer.player) || XCI.GetButtonDown(XboxButton.A, castingPlayer.player) || XCI.GetButtonDown(XboxButton.Y, castingPlayer.player))
                         {
                             WrongButton();
                         }
                         break;
                     case XboxButton.Y:
-                        if (XCI.GetButtonDown(XboxButton.B, playerInRange.player) || XCI.GetButtonDown(XboxButton.X, playerInRange.player) || XCI.GetButtonDown(XboxButton.A, playerInRange.player))
+                        if (XCI.GetButtonDown(XboxButton.B, castingPlayer.player) || XCI.GetButtonDown(XboxButton.X, castingPlayer.player) || XCI.GetButtonDown(XboxButton.A, castingPlayer.player))
                         {
                             WrongButton();
                         }
@@ -171,7 +168,7 @@ public class RitualSite : MonoBehaviour
 
     void CorrectButton()
     {
-        playerInRange.IncrementProgress(ritualIncrement);
+        castingPlayer.IncrementProgress(ritualIncrement);
         imageColour.a = 1;
         currentButton = baseKeys[Random.Range(0, baseKeys.Count)];
 
@@ -180,7 +177,7 @@ public class RitualSite : MonoBehaviour
 
     void WrongButton()
     {
-        playerInRange.DecrementProgress(ritualDecrement);
+        castingPlayer.DecrementProgress(ritualDecrement);
         imageColour.a = 1;
         currentButton = baseKeys[Random.Range(0, baseKeys.Count)];
     }
@@ -188,16 +185,16 @@ public class RitualSite : MonoBehaviour
     void QueryButton()
     {
         // Checks if there is a player in range
-        if (playerInRange != null)
+        if (castingPlayer != null)
         {
             // If there is a player in range, check if it has finished the ritual
-            if (!playerInRange.hasFinishedRitual)
+            if (!castingPlayer.hasFinishedRitual)
             {
                 // Displays the current button prompt
                 DisplayButton();
                 // Fades the button
                 imageColour.a -= 0.0175f;
-                if(imageColour.a <= 0 && playerInRange.isCasting)
+                if (imageColour.a <= 0 && castingPlayer.isCasting)
                 {
                     WrongButton();
                 }

@@ -55,16 +55,19 @@ public class PlayerController : MonoBehaviour
 
     // Other References
     Rigidbody rb;
-    [SerializeField] GameObject hudObject;
 
     // Model References (TEMPORARY)
     GameObject deadModel;
     GameObject rootObject;
     GameObject samuraiObject;
 
+    // UI
+    [SerializeField] GameObject hudObject;
+    Image interactPrompt;
+
     bool isGodMode;
     [SerializeField] float godmodeDuration;
-
+    RitualSite ritualSite;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour
         // Gets both the ritual bar and revive bar references
         ritualBar = hudObject.transform.Find("Progress Bar").GetComponent<Slider>();
         reviveBar = hudObject.transform.Find("Revive Bar").GetComponent<Slider>();
+        interactPrompt = hudObject.transform.Find("InteractPrompt").GetComponent<Image>();
 
         attackCone = transform.Find("Attack Cone").GetComponent<AttackCone>();
 
@@ -128,46 +132,87 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // If the controller is not plugged in, leave the game
-        if (!XCI.IsPluggedIn((int)player) && gameObject.activeSelf)
+        // Ritual
+        if (ritualSite != null)
         {
-            LeaveGame();
-        }
-        else if (!hasJoined)
-        {
-            JoinGame();
-        }
+            if (XCI.GetButtonDown(XboxButton.X, player) && !isCasting)
+            {
+                if (ritualSite.StartRitual(this))
+                {
+                    ToggleInteractPrompt(false);
+                    isCasting = true;
+                    GetComponent<Rigidbody>().isKinematic = true;
+                    //}
+                    //else
+                    //{
+                    //    isCasting = false;
+                    //    ToggleInteractPrompt(true);
+                    //}
+                }
+            }
 
-        // Allows revival
-        ReviveAction();
-        DecayBar();
+            if (isCasting)
+            {
+                if (isDown)
+                {
+                    StopCasting(false);
+                }
 
-        #region Debug Controls
-        if (XCI.GetButtonDown(XboxButton.LeftBumper, player))
-        {
-            DownPlayer();
-        }
+                if (XCI.GetAxis(XboxAxis.LeftStickX, player) > 0.5 || XCI.GetAxis(XboxAxis.LeftStickY, player) > 0.5 ||
+                        XCI.GetAxis(XboxAxis.LeftStickX, player) < -0.4 || XCI.GetAxis(XboxAxis.LeftStickY, player) < -0.4)
+                {
+                    StopCasting(true);
+                    GetComponent<Rigidbody>().isKinematic = false;
+                }
+            }
 
-        if (XCI.GetButtonDown(XboxButton.RightBumper, player))
-        {
-            RevivePlayer(true);
-        }
+            // If the controller is not plugged in, leave the game
+            if (!XCI.IsPluggedIn((int)player) && gameObject.activeSelf)
+            {
+                LeaveGame();
+            }
+            else if (!hasJoined)
+            {
+                JoinGame();
+            }
 
-        if (XCI.GetButtonDown(XboxButton.DPadDown, player))
-        {
-            TakeDamage(1);
-        }
+            // Allows revival
+            ReviveAction();
+            DecayBar();
 
-        if (XCI.GetButtonDown(XboxButton.DPadLeft, player))
-        {
-            TakeDamage(2);
-        }
+            // UI
+            if (interactPrompt.color != Color.clear)
+            {
+                MoveInteractPrompt();
+            }
 
-        if (XCI.GetButtonDown(XboxButton.DPadUp, XboxController.First))
-        {
-            HealDamage(1);
+            #region Debug Controls
+            if (XCI.GetButtonDown(XboxButton.LeftBumper, player))
+            {
+                DownPlayer();
+            }
+
+            if (XCI.GetButtonDown(XboxButton.RightBumper, player))
+            {
+                RevivePlayer(true);
+            }
+
+            if (XCI.GetButtonDown(XboxButton.DPadDown, player))
+            {
+                TakeDamage(1);
+            }
+
+            if (XCI.GetButtonDown(XboxButton.DPadLeft, player))
+            {
+                TakeDamage(2);
+            }
+
+            if (XCI.GetButtonDown(XboxButton.DPadUp, XboxController.First))
+            {
+                HealDamage(1);
+            }
+            #endregion
         }
-        #endregion
     }
 
     private void FixedUpdate()
@@ -175,6 +220,51 @@ public class PlayerController : MonoBehaviour
         // If the player is not casting the ritual or downed, allow movement
         if (!isDown && !isCasting)
             Move();
+    }
+
+    void MoveInteractPrompt()
+    {
+        if (!isCasting)
+        {
+            Vector3 offset = new Vector3(0f, 60f, 0f);
+            interactPrompt.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+            interactPrompt.transform.position += offset;
+            interactPrompt.rectTransform.sizeDelta = new Vector2(60, 60);
+        }
+    }
+
+    public void IsInRitual(bool a_active, RitualSite a_site)
+    {
+        if (a_active)
+        {
+            ritualSite = a_site;
+            ToggleInteractPrompt(!ritualSite.PlayerCasting());
+        }
+        else
+        {
+            ritualSite = null;
+            ToggleInteractPrompt(false);
+        }
+
+    }
+
+    void ToggleInteractPrompt(bool a_active)
+    {
+        if (a_active)
+        {
+            interactPrompt.color = Color.white;
+        }
+        else
+        {
+            interactPrompt.color = Color.clear;
+        }
+    }
+
+    void StopCasting(bool a_togglePrompt)
+    {
+        ritualSite.StopRitual();
+        isCasting = false;
+        ToggleInteractPrompt(a_togglePrompt);
     }
 
     #region Joining/Leaving Game

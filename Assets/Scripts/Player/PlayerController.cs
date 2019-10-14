@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float dashDuration;
     [SerializeField] float dashCooldown;
     bool canDash = true;
+    ParticleSystem dashParticle;
 
     // Ritual Variables
     [HideInInspector] public int ritualContribution;
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
     bool isBeingRevived;
-    
+
     // Health Variables
     int currentHealth;
     [SerializeField] int maxHealth;
@@ -61,6 +62,9 @@ public class PlayerController : MonoBehaviour
     GameObject rootObject;
     GameObject samuraiObject;
 
+    bool isGodMode;
+    [SerializeField] float godmodeDuration;
+
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +72,8 @@ public class PlayerController : MonoBehaviour
         // Gets the Rigidbody component and stores it in 'rb'
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        dashParticle = transform.Find("Dash").GetComponent<ParticleSystem>();
 
         // Reference to Animator component
         animator = GetComponent<Animator>();
@@ -223,6 +229,9 @@ public class PlayerController : MonoBehaviour
         moveSpeed += dashForce;
         canDash = false;
 
+        Vector3 eulerRotation = new Vector3(dashParticle.transform.eulerAngles.x, transform.eulerAngles.y + 180, dashParticle.transform.eulerAngles.z);
+        dashParticle.transform.rotation = Quaternion.Euler(eulerRotation);
+        dashParticle.Play();
         // For dashDuration seconds.
         yield return new WaitForSeconds(dashDuration);
 
@@ -375,7 +384,7 @@ public class PlayerController : MonoBehaviour
                 downedPlayer.StopReviving();
                 // If the button is let go, the progress is reset
                 bar.value -= 0.0025f;
-                if(bar.value <= bar.minValue)
+                if (bar.value <= bar.minValue)
                 {
                     bar.value = bar.minValue;
                 }
@@ -431,43 +440,56 @@ public class PlayerController : MonoBehaviour
     #region Heal/Damage
     public void TakeDamage(int a_dmg = 1)
     {
-        currentHealth -= a_dmg;
-        if (currentHealth <= 0)
+        if (!isGodMode)
         {
-            currentHealth = 0;
-            DownPlayer();
-        }
+            currentHealth -= a_dmg;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                DownPlayer();
+            }
 
-        foreach (GameObject icon in healthIcons)
-        {
-            icon.SetActive(false);
-        }
+            foreach (GameObject icon in healthIcons)
+            {
+                icon.SetActive(false);
+            }
 
-        for (int i = 0; i < currentHealth; i++)
-        {
-            healthIcons[i].SetActive(true);
+            for (int i = 0; i < currentHealth; i++)
+            {
+                healthIcons[i].SetActive(true);
+            }
         }
     }
 
     public void TakeDamage(Enemy a_attacker, int a_dmg = 1)
     {
-        currentHealth -= a_dmg;
-        if (currentHealth <= 0)
+        if (!isGodMode)
         {
-            currentHealth = 0;
-            DownPlayer();
-            a_attacker.ClearTarget();
-        }
+            currentHealth -= a_dmg;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                DownPlayer();
+                a_attacker.ClearTarget();
+            }
 
-        foreach (GameObject icon in healthIcons)
-        {
-            icon.SetActive(false);
-        }
+            foreach (GameObject icon in healthIcons)
+            {
+                icon.SetActive(false);
+            }
 
-        for (int i = 0; i < currentHealth; i++)
-        {
-            healthIcons[i].SetActive(true);
+            for (int i = 0; i < currentHealth; i++)
+            {
+                healthIcons[i].SetActive(true);
+            }
+            StartCoroutine(FlashGodmode());
         }
+    }
+    IEnumerator FlashGodmode()
+    {
+        isGodMode = true;
+        yield return new WaitForSeconds(godmodeDuration);
+        isGodMode = false;
     }
 
     void HealDamage(int a_heal = 1)
@@ -494,22 +516,31 @@ public class PlayerController : MonoBehaviour
     {
         // The player can't attack until...
         canAttack = false;
-        animator.SetBool("isAttacking", true);
+        //animator.SetBool("isAttacking", true);
 
-        yield return new WaitForSeconds(0.25f);
 
 
         // Check if enemies are within the cone...
         if (attackCone.enemiesInRange.Count > 0)
         {
-            // Deal damage to each enemy
-            foreach (Enemy enemy in attackCone.enemiesInRange)
+            Enemy targetEnemy = attackCone.enemiesInRange[0];
+            if (targetEnemy == null)
             {
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(Random.Range(1, 10));
-                }
+                attackCone.enemiesInRange.Remove(targetEnemy);
+                yield return null;
             }
+            else
+            {
+                transform.LookAt(targetEnemy.transform);
+            }
+
+            targetEnemy.TakeDamage(10);
+            attackCone.enemiesInRange.Remove(targetEnemy);
+
+            transform.position = transform.position + transform.forward;
+
+            // CHECK IF HEALTH IS LESS THAN 10
+            attackCone.enemiesInRange.Remove(targetEnemy);
         }
 
         // If projectiles are within the cone...
@@ -526,11 +557,11 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
         animator.SetBool("isAttacking", false);
-
         // the cooldown has finished
-        yield return new WaitForSeconds(attackDelay);
+        //yield return new WaitForSeconds(attackDelay);
 
-        // the player can now attack
+        //// the player can now attack
+        //yield return new WaitForSeconds(0.25f);
         canAttack = true;
 
     }

@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     bool canDash = true;
 
     // Ritual Variables
-    public int ritualContribution;
+    [HideInInspector] public int ritualContribution;
     Slider ritualBar;
     [HideInInspector] public bool isCasting;
     [HideInInspector] public bool hasFinishedRitual;
@@ -39,18 +39,14 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isDown;
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
-
-    [HideInInspector] public PlayerController revivingPlayer;
-
+    bool isBeingRevived;
+    
     // Health Variables
     int currentHealth;
     [SerializeField] int maxHealth;
     [SerializeField] GameObject[] healthIcons;
 
     // Combat Variables
-    [SerializeField] Transform handPosition;
-    [SerializeField] GameObject weaponObject;
-    [SerializeField] GameObject testWep;
     AttackCone attackCone;
     [SerializeField] float hitSpeed;
     [SerializeField] float attackDelay;
@@ -104,23 +100,24 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Movement", Mathf.Abs(verticalAxis + horizontalAxis));
 
-        // Rotate's the player according to axis (if the player is not downed)
-        if (!isDown)
+        // Rotate's the player according to axis (if the player is not downed or casting)
+        if (!isDown && !isCasting)
             Rotate();
 
         // Dash
         if (!isCasting)
         {
-
-            if (XCI.GetButtonDown(XboxButton.A, player))
+            // if the A button is pressed and the player can dash
+            if (XCI.GetButtonDown(XboxButton.A, player) && canDash)
             {
                 // If the cooldown is at 0, allow a dash
-                if (canDash)
-                    StartCoroutine(Dash());
+                StartCoroutine(Dash());
             }
 
+            // If the X button is pressed and the player can attack
             if (XCI.GetButtonDown(XboxButton.X, player))
             {
+                // Attack
                 StartCoroutine(Attack());
             }
         }
@@ -137,6 +134,7 @@ public class PlayerController : MonoBehaviour
 
         // Allows revival
         ReviveAction();
+        DecayBar();
 
         #region Debug Controls
         if (XCI.GetButtonDown(XboxButton.LeftBumper, player))
@@ -163,18 +161,13 @@ public class PlayerController : MonoBehaviour
         {
             HealDamage(1);
         }
-
-        if (XCI.GetButtonDown(XboxButton.DPadRight, player))
-        {
-            EquipWeapon(testWep);
-        }
         #endregion
     }
 
     private void FixedUpdate()
     {
         // If the player is not casting the ritual or downed, allow movement
-        if (!isCasting && !isDown)
+        if (!isDown && !isCasting)
             Move();
     }
 
@@ -207,12 +200,14 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Movement/Rotation
+    // Moves the player according to left stick movement
     void Move()
     {
         // Moves the object in the direction of the joystick
         rb.velocity = new Vector3(horizontalAxis * moveSpeed * Time.deltaTime, 0, verticalAxis * moveSpeed * Time.deltaTime);
     }
 
+    // Rotates the player according to left stick movement
     void Rotate()
     {
         // Actually rotate the player
@@ -221,6 +216,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(lookDirection);
     }
 
+    // Quickly moves the player forward a short distance
     public IEnumerator Dash()
     {
         // Exponentially increase movement speed (dash)
@@ -285,10 +281,7 @@ public class PlayerController : MonoBehaviour
         // If the player is not already downed
         if (!isDown)
         {
-            // Set downed to true
             isDown = true;
-            // Enables the trigger volume
-            GetComponent<SphereCollider>().enabled = true;
             // Enable the revive bar object
             reviveBar.gameObject.SetActive(true);
 
@@ -312,7 +305,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void RevivePlayer(bool a_fullHealth = false)
+    void RevivePlayer(bool a_fullHealth = false)
     {
         // If the player is already downed
         if (isDown)
@@ -337,30 +330,55 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Revive()
+    {
+        isBeingRevived = true;
+
+        // Slowly increase the bar
+        reviveBar.value += 0.005f;
+        if (reviveBar.value >= reviveBar.maxValue)
+        {
+            // If the bar is filled, the player is revived and the bar is reset
+            RevivePlayer(true);
+            reviveBar.value = reviveBar.minValue;
+        }
+    }
+
+    public void StopReviving()
+    {
+        isBeingRevived = false;
+    }
+
+    // If there is a downed player in this player's range, begin reviving the player
     void ReviveAction()
     {
         // If the downed player is not equal to null
-        if (revivingPlayer != null)
+        if (downedPlayer != null)
         {
             // Gets reference to downed player's revive bar
-            Slider bar = reviveBar;
+            Slider bar = downedPlayer.reviveBar;
 
             // If the player holds the X button on the downed player...
-            if (XCI.GetButton(XboxButton.X, revivingPlayer.player))
+            if (XCI.GetButton(XboxButton.X, player))
             {
-
-                // Slowly increase the bar
-                bar.value += 0.005f;
-                if (bar.value >= bar.maxValue)
+                downedPlayer.Revive();
+                // if the player is revived, lose the reference to the downed player
+                if (reviveBar.value >= reviveBar.maxValue)
                 {
-                    // If the bar is filled, the player is revived and the bar is reset
-                    RevivePlayer(true);
-                    bar.value = bar.minValue;
-                    revivingPlayer = null;
+                    downedPlayer = null;
                 }
             }
-            else
+            // If revive button is let go...
+            else if (XCI.GetButtonUp(XboxButton.X, player))
             {
+                // Stop reviving player
+                downedPlayer.StopReviving();
+                // If the button is let go, the progress is reset
+                bar.value -= 0.0025f;
+                if(bar.value <= bar.minValue)
+                {
+                    bar.value = bar.minValue;
+                }
                 // If the button is let go, the progress is reset
                 bar.value -= 0.0025f;
                 if (bar.value <= bar.minValue)
@@ -371,33 +389,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    // Decays the revive bar if the reviving action was stopped
+    void DecayBar()
     {
-        if (GetComponent<SphereCollider>().enabled)
+        // If the player is no longer being revived but
+        if (!isBeingRevived && reviveBar.value > 0)
         {
-            if (other.tag == "Player" && isDown)
+            reviveBar.value -= 0.0025f;
+            if (reviveBar.value < reviveBar.minValue)
             {
-                revivingPlayer = other.GetComponent<PlayerController>();
+                reviveBar.value = reviveBar.minValue;
             }
         }
-        // else if (ConeCollider)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // If the collider entering the trigger is tagged as "Player"
+        if (other.tag == "Player")
+        {
+            if (other.GetComponent<PlayerController>().isDown)
+            {
+                downedPlayer = other.GetComponent<PlayerController>();
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerController>().downedPlayer = null;
+            if (other.GetComponent<PlayerController>().isDown)
+            {
+                downedPlayer.StopReviving();
+                downedPlayer = null;
+            }
         }
-    }
-    #endregion
-
-    #region Equip/Unequip
-    public void EquipWeapon(GameObject a_weapon)
-    {
-        weaponObject = a_weapon;
-        weaponObject.transform.parent = handPosition;
-
     }
     #endregion
 
@@ -410,9 +437,6 @@ public class PlayerController : MonoBehaviour
             currentHealth = 0;
             DownPlayer();
         }
-
-        Debug.Log("Damage taken:" + a_dmg.ToString());
-        Debug.Log("Health remaining:" + currentHealth.ToString());
 
         foreach (GameObject icon in healthIcons)
         {
@@ -434,9 +458,6 @@ public class PlayerController : MonoBehaviour
             DownPlayer();
             a_attacker.ClearTarget();
         }
-
-        Debug.Log("Damage taken:" + a_dmg.ToString());
-        Debug.Log("Health remaining:" + currentHealth.ToString());
 
         foreach (GameObject icon in healthIcons)
         {

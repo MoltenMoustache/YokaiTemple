@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     // References
     [SerializeField] TextMeshProUGUI ritualText;
 
+    // Connections
+    ConnectionManager connectionManager;
+
     public int ritualProgress = 0;
     public int maxRitual;
     [SerializeField] Slider progressBar;
@@ -41,39 +44,48 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        connectionManager = new ConnectionManager();
+        InitializePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (checkpoints.Length > 0)
-        {
-            foreach (Checkpoint check in checkpoints)
-            {
-                if (ritualProgress >= check.progress)
-                {
-                    checkpointObjects = GameObject.FindGameObjectsWithTag(check.tag);
-                    DisableObjectArray(checkpointObjects, check.color);
-                }
-            }
-        }
 
-        if (XCI.GetNumPluggedCtrlrs() != currentPlayerCount)
-        {
-            currentPlayers = GameObject.FindGameObjectsWithTag("Player");
-            for (int i = 0; i < XCI.GetNumPluggedCtrlrs(); i++)
-            {
-                players[i].GetComponent<PlayerController>().JoinGame();
-            }
+        //if (XCI.GetNumPluggedCtrlrs() != currentPlayerCount)
+        //{
+        //    currentPlayers = GameObject.FindGameObjectsWithTag("Player");
+        //    for (int i = 0; i < XCI.GetNumPluggedCtrlrs(); i++)
+        //    {
+        //        players[i].GetComponent<PlayerController>().JoinGame();
+        //    }
 
-            UpdatePlayerCount();
-            currentPlayerCount = XCI.GetNumPluggedCtrlrs();
-        }
+        //    UpdatePlayerCount();
+        //    currentPlayerCount = XCI.GetNumPluggedCtrlrs();
+        //}
 
-        if(XCI.GetButtonDown(XboxButton.Start, XboxController.All))
+        if (XCI.GetButtonDown(XboxButton.Start, XboxController.All))
         {
             PauseGame(!pausePanel.activeSelf);
+        }
+    }
+
+    void CheckCheckpointProgression()
+    {
+
+    }
+
+    public ConnectionManager GetConnectionManager()
+    {
+        return connectionManager;
+    }
+
+    void InitializePlayers()
+    {
+        int playersConnected = XCI.GetNumPluggedCtrlrs();
+        for (int i = 0; i < playersConnected; i++)
+        {
+            players[i].GetComponent<PlayerController>().JoinGame();
         }
     }
 
@@ -95,6 +107,18 @@ public class GameManager : MonoBehaviour
     {
         ritualProgress += a_amount;
         progressBar.value = ritualProgress;
+
+        if (checkpoints.Length > 0)
+        {
+            foreach (Checkpoint check in checkpoints)
+            {
+                if (ritualProgress >= check.progress)
+                {
+                    checkpointObjects = GameObject.FindGameObjectsWithTag(check.tag);
+                    ToggleProgressObjects(checkpointObjects, check.color);
+                }
+            }
+        }
 
         if (ritualProgress >= maxRitual)
         {
@@ -139,12 +163,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void DisableObjectArray(GameObject[] a_objects, Color a_color)
+    void ToggleProgressObjects(GameObject[] a_objects, Color a_color)
     {
         foreach (GameObject currentObject in a_objects)
         {
-            //currentObject.SetActive(false);
-            currentObject.GetComponent<MeshRenderer>().material.color = a_color;
+            currentObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", a_color);
         }
     }
 }

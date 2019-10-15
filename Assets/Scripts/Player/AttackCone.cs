@@ -6,7 +6,7 @@ public class AttackCone : MonoBehaviour
 {
     PlayerController parentPlayer;
     public List<Enemy> enemiesInRange = new List<Enemy>();
-    public List<Projectile> projectilesInRange = new List<Projectile>();
+    public List<GameObject> projectilesInRange = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class AttackCone : MonoBehaviour
 
         if(other.tag == "Projectile")
         {
-            projectilesInRange.Add(other.GetComponent<Projectile>());
+            projectilesInRange.Add(other.gameObject);
         }
     }
 
@@ -50,7 +50,7 @@ public class AttackCone : MonoBehaviour
 
         if(other.tag == "Projectile")
         {
-            Projectile projectileLeaving = other.GetComponent<Projectile>();
+            GameObject projectileLeaving = other.gameObject;
             if (projectilesInRange.Contains(projectileLeaving))
             {
                 projectilesInRange.Remove(projectileLeaving);

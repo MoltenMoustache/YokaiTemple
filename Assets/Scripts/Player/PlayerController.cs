@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
 
     bool isGodMode;
     [SerializeField] float godmodeDuration;
+
+    PlayerConnection connection;
     RitualSite ritualSite;
 
     // Start is called before the first frame update
@@ -88,6 +90,8 @@ public class PlayerController : MonoBehaviour
         dashParticle = transform.Find("Dash").GetComponent<ParticleSystem>();
 
         currentHealth = maxHealth;
+
+        connection = new PlayerConnection(this, GameManager.instance.GetConnectionManager());
 
         // Get model references
     }
@@ -378,11 +382,6 @@ public class PlayerController : MonoBehaviour
             // Enable the revive bar object
             reviveBar.gameObject.SetActive(true);
 
-            // Enable dead model / disable live model
-            deadModel.SetActive(true);
-            rootObject.SetActive(false);
-            samuraiObject.SetActive(false);
-
             // Make the bar follow the player
             Vector3 offset = new Vector3(0f, 30f, 0f);
             reviveBar.transform.position = Camera.main.WorldToScreenPoint(transform.position);
@@ -631,11 +630,17 @@ public class PlayerController : MonoBehaviour
         if (attackCone.projectilesInRange.Count > 0)
         {
             // Reflect the projectile in the direction the player is facing
-            foreach (Projectile proj in attackCone.projectilesInRange)
+            foreach (GameObject proj in attackCone.projectilesInRange)
             {
-                proj.IsHit();
-                proj.transform.rotation = transform.rotation;
-                proj.moveSpeed += hitSpeed;
+                if (proj != null)
+                {
+                    proj.transform.rotation = transform.rotation;
+                    proj.GetComponent<Rigidbody>().velocity = transform.forward * 3;
+                }
+                else
+                {
+                    attackCone.projectilesInRange.Remove(proj);
+                }
             }
         }
 
@@ -649,4 +654,5 @@ public class PlayerController : MonoBehaviour
         canAttack = true;
 
     }
+
 }

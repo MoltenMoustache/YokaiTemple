@@ -139,25 +139,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public bool CheckWin()
-    //{
-    //    // Gets an array of all players current in the game
-    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-    //    // Loops through each player
-    //    foreach (GameObject player in players)
-    //    {
-    //        // If a player has not finished the ritual, the game is not complete and the function returns false.
-    //        if (!player.GetComponent<PlayerController>().hasFinishedRitual)
-    //        {
-    //            return false;
-    //        }
-    //    }
-
-    //    // Otherwise, the game is complete and the functon returns true.
-    //    return true;
-    //}
-
     void DisableObjectArray(GameObject[] a_objects, Color a_color)
     {
         foreach (GameObject currentObject in a_objects)

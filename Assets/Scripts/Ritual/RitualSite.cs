@@ -27,25 +27,9 @@ public class RitualSite : MonoBehaviour
 
     PlayerController castingPlayer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //materialColour = GetComponent<Renderer>().material.color;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        //if (castingPlayer != null)
-        //{
-        //    //if (!castingPlayer.isCasting)
-        //    //{
-        //    //    Vector3 offset = new Vector3(0f, 60f, 0f);
-        //    //    buttonPrompt.transform.position = Camera.main.WorldToScreenPoint(castingPlayer.transform.position);
-        //    //    buttonPrompt.transform.position += offset;
-        //    //    buttonPrompt.rectTransform.sizeDelta = new Vector2(60, 60);
-        //    //}
-        //}
 
         QueryButton();
     }
@@ -106,8 +90,6 @@ public class RitualSite : MonoBehaviour
 
     public void StopRitual()
     {
-        GetComponent<Renderer>().material.color = materialColour;
-
         currentButton = null;
         buttonPrompt.sprite = null;
         buttonPrompt.enabled = false;
@@ -171,8 +153,6 @@ public class RitualSite : MonoBehaviour
         castingPlayer.IncrementProgress(ritualIncrement);
         imageColour.a = 1;
         currentButton = baseKeys[Random.Range(0, baseKeys.Count)];
-
-        GetComponent<Renderer>().material.color = materialColour;
     }
 
     void WrongButton()

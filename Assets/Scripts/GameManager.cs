@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using XboxCtrlrInput;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,42 +38,29 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject[] players;
     GameObject[] currentPlayers;
     int currentPlayerCount;
-
-    // Pause Menu
-    [SerializeField] GameObject pausePanel;
+    [SerializeField] GameObject gameoverCanvas;
+    [SerializeField] GameObject pauseCanvas;
 
     // Start is called before the first frame update
     void Start()
     {
         connectionManager = new ConnectionManager();
+        progressBar.maxValue = maxRitual;
         InitializePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        //if (XCI.GetNumPluggedCtrlrs() != currentPlayerCount)
+        //if (XCI.GetButtonDown(XboxButton.Start, XboxController.All))
         //{
-        //    currentPlayers = GameObject.FindGameObjectsWithTag("Player");
-        //    for (int i = 0; i < XCI.GetNumPluggedCtrlrs(); i++)
-        //    {
-        //        players[i].GetComponent<PlayerController>().JoinGame();
-        //    }
-
-        //    UpdatePlayerCount();
-        //    currentPlayerCount = XCI.GetNumPluggedCtrlrs();
+        //    PauseGame(!pauseCanvas.activeSelf);
         //}
 
-        if (XCI.GetButtonDown(XboxButton.Start, XboxController.All))
+        if (CheckGameOver())
         {
-            PauseGame(!pausePanel.activeSelf);
+            StartCoroutine(EndGame(false));
         }
-    }
-
-    void CheckCheckpointProgression()
-    {
-
     }
 
     public ConnectionManager GetConnectionManager()
@@ -87,6 +75,19 @@ public class GameManager : MonoBehaviour
         {
             players[i].GetComponent<PlayerController>().JoinGame();
         }
+    }
+
+    bool CheckGameOver()
+    {
+        foreach (var player in players)
+        {
+            if (!player.GetComponent<PlayerController>().isDown)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void UpdatePlayerCount()
@@ -122,21 +123,32 @@ public class GameManager : MonoBehaviour
 
         if (ritualProgress >= maxRitual)
         {
-            EndGame(true);
+            StartCoroutine(EndGame(true));
         }
     }
 
-    void EndGame(bool a_didWin)
+    public void ExitToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
+
+    public IEnumerator EndGame(bool a_didWin)
     {
         if (a_didWin)
         {
-            Time.timeScale = 0;
             GameObject[] yokai = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject yoke in yokai)
             {
                 Destroy(yoke);
             }
-            Debug.Log("Game Complete.");
+
+            yield return new WaitForSeconds(1.5f);
+            SceneManager.LoadSceneAsync(0);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.5f);
+            SceneManager.LoadSceneAsync(0);
         }
     }
 
@@ -149,17 +161,17 @@ public class GameManager : MonoBehaviour
         progressBar.value = ritualProgress;
     }
 
-    void PauseGame(bool a_pause)
+    public void PauseGame(bool a_pause)
     {
         if (a_pause)
         {
-            Time.timeScale = 0;
-            pausePanel.SetActive(true);
+            //Time.timeScale = 0.25f;
+            pauseCanvas.SetActive(true);
         }
         else
         {
-            Time.timeScale = 1;
-            pausePanel.SetActive(false);
+            //Time.timeScale = 1;
+            pauseCanvas.SetActive(false);
         }
     }
 

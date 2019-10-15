@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     // Ritual Variables
     [HideInInspector] public int ritualContribution;
     Slider ritualBar;
-    [HideInInspector] public bool isCasting;
+    public bool isCasting;
     [HideInInspector] public bool hasFinishedRitual;
 
     // Reviving Variables
-    [HideInInspector] public bool isDown;
+     public bool isDown;
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
     bool isBeingRevived;
@@ -129,6 +129,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        ReviveAction();
+        DecayBar();
+
         // Ritual
         if (ritualSite != null)
         {
@@ -209,6 +212,11 @@ public class PlayerController : MonoBehaviour
                 HealDamage(1);
             }
             #endregion
+        }
+
+        if(XCI.GetButtonDown(XboxButton.LeftBumper, player))
+        {
+            TakeDamage(5);
         }
     }
 
@@ -409,13 +417,9 @@ public class PlayerController : MonoBehaviour
             // Disable the revive bar object
             reviveBar.gameObject.SetActive(false);
 
-            // Disable dead model / Enable live model
-            deadModel.SetActive(false);
-            rootObject.SetActive(true);
-            samuraiObject.SetActive(true);
-
             // Disable kinematic on Rigidbody to allow movement
             rb.isKinematic = false;
+            GetComponent<Rigidbody>().isKinematic = false;
 
             if (currentHealth < maxHealth && a_fullHealth)
                 HealDamage(maxHealth);
@@ -502,6 +506,7 @@ public class PlayerController : MonoBehaviour
         {
             if (other.GetComponent<PlayerController>().isDown)
             {
+                Debug.Log("Downed player entered range");
                 downedPlayer = other.GetComponent<PlayerController>();
             }
         }

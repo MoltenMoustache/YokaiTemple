@@ -33,7 +33,8 @@ public class pausebehavior : MonoBehaviour
 
         if (timer <= 0 && IsResume)
         {
-            this.gameObject.SetActive(false);
+            GameManager.instance.PauseGame(false);
+            //this.gameObject.SetActive(false);
         }
         else if (timer <= 0 && IsMainMenu)
         {

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Projectile
+  - CheckOne
+  - CheckTwo
+  - CheckThree
+  - CheckFour
   layers:
   - Default
   - TransparentFX

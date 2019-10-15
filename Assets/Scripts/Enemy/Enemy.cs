@@ -68,7 +68,6 @@ public class Enemy : MonoBehaviour
             {
                 player.TakeDamage(this, damage);
                 attackCooldown++;
-
             }
 
         }
@@ -115,17 +114,12 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        
-        return closestTarget;
+
         if (target != null)
         {
             targetPos = target.transform.position;
         }
-        else
-        {
-            //Debug.Log("Game Lost");
-            //Time.timeScale = 0;
-        }
+        return closestTarget;
     }
 
     void OnDrawGizmosSelected()
@@ -136,5 +130,14 @@ public class Enemy : MonoBehaviour
         //shows attack distance of enemy
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            other.GetComponent<PlayerController>().TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }

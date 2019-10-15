@@ -47,7 +47,7 @@ public class PlayerSelectBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime * 2;
+        timer += Time.deltaTime * 5;
 
         PlayerConnected = (XCI.IsPluggedIn(playerNum) ? true : false);
 

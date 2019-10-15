@@ -73,10 +73,12 @@
     <Compile Include="Assets\Scripts\Player\AttackCone.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Ritual\RitualSite.cs" />
+    <Compile Include="Assets\Scripts\UI\buttonbehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\ExitScene.cs" />
     <Compile Include="Assets\Scripts\UI\FileController.cs" />
     <Compile Include="Assets\Scripts\UI\MenuNav.cs" />
     <Compile Include="Assets\Scripts\UI\OptionBehavior.cs" />
+    <Compile Include="Assets\Scripts\UI\pausebehavior.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerHUDBehavior.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerReadyBehavior.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerSelectBehavior.cs" />

@@ -39,7 +39,7 @@ public class PlayerReadyBehavior : MonoBehaviour
         playersConnected = XCI.GetNumPluggedCtrlrs();
 
         allPlayersReady = (playersConnected == playersReady && playersConnected != 0);
-        Debug.Log(allPlayersReady);
+        //Debug.Log(allPlayersReady);
 
         if (allPlayersReady)
         {

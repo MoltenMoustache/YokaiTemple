@@ -85,13 +85,11 @@ public class PlayerController : MonoBehaviour
         interactPrompt = hudObject.transform.Find("InteractPrompt").GetComponent<Image>();
 
         attackCone = transform.Find("Attack Cone").GetComponent<AttackCone>();
+        dashParticle = transform.Find("Dash").GetComponent<ParticleSystem>();
 
         currentHealth = maxHealth;
 
         // Get model references
-        deadModel = transform.Find("Dead Model").gameObject;
-        rootObject = transform.Find("Root").gameObject;
-        samuraiObject = transform.Find("Samurai").gameObject;
     }
 
     // Update is called once per frame
@@ -317,6 +315,7 @@ public class PlayerController : MonoBehaviour
         Vector3 eulerRotation = new Vector3(dashParticle.transform.eulerAngles.x, transform.eulerAngles.y + 180, dashParticle.transform.eulerAngles.z);
         dashParticle.transform.rotation = Quaternion.Euler(eulerRotation);
         dashParticle.Play();
+
         // For dashDuration seconds.
         yield return new WaitForSeconds(dashDuration);
 

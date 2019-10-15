@@ -76,8 +76,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        dashParticle = transform.Find("Dash").GetComponent<ParticleSystem>();
-
         // Reference to Animator component
         animator = GetComponent<Animator>();
 
@@ -106,9 +104,6 @@ public class PlayerController : MonoBehaviour
         // Gets the axis
         verticalAxis = XCI.GetAxis(XboxAxis.LeftStickY, player);
         horizontalAxis = XCI.GetAxis(XboxAxis.LeftStickX, player);
-
-
-        animator.SetFloat("Movement", Mathf.Abs(verticalAxis + horizontalAxis));
 
         // Rotate's the player according to axis (if the player is not downed or casting)
         if (!isDown && !isCasting)

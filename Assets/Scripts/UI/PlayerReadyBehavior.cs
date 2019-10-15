@@ -43,7 +43,7 @@ public class PlayerReadyBehavior : MonoBehaviour
 
         if (allPlayersReady)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(3);
         }
 
         CheckInput(XboxController.First);

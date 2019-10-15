@@ -17,7 +17,7 @@ public class pausebehavior : MonoBehaviour
 
     bool IsResume = false;
     bool IsMainMenu = false;
-
+    public bool IsVertical = true;
     float timer = 0.0f;
     int currentButton = 0; 
 
@@ -46,16 +46,34 @@ public class pausebehavior : MonoBehaviour
             currentButton = 0;
         }
 
-        if (XCI.GetAxis(XboxAxis.LeftStickY) < 0 && timer <= 0)
+        if (IsVertical)
         {
-            timer = 1.0f;
-            currentButton++;
-        }
+            if (XCI.GetAxis(XboxAxis.LeftStickY) < 0 && timer <= 0)
+            {
+                timer = 1.0f;
+                currentButton++;
+            }
 
-        if (XCI.GetAxis(XboxAxis.LeftStickY) > 0 && timer <= 0)
+            if (XCI.GetAxis(XboxAxis.LeftStickY) > 0 && timer <= 0)
+            {
+                timer = 1.0f;
+                currentButton--;
+            }
+        }
+        else
         {
-            timer = 1.0f;
-            currentButton--;
+            if (XCI.GetAxis(XboxAxis.LeftStickX) < 0 && timer <= 0)
+            {
+                timer = 1.0f;
+                currentButton--;
+            }
+
+            if (XCI.GetAxis(XboxAxis.LeftStickX) > 0 && timer <= 0)
+            {
+                timer = 1.0f;
+                currentButton++;
+            }
+
         }
 
 

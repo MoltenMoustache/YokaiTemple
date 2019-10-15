@@ -212,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7149230351456016650}
   - component: {fileID: 7149230351446767338}
+  - component: {fileID: 3097667259946684273}
   m_Layer: 0
   m_Name: Enemy_001_AnimatedMesh_Lantern_001
   m_TagString: Untagged
@@ -254,6 +255,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &3097667259946684273
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149230351456240938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 0}
 --- !u!1 &7149230351456240940
 GameObject:
   m_ObjectHideFlags: 0

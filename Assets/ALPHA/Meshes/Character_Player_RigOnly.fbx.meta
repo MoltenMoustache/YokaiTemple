@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: 6a1994dbe2f2b3141bd0d81c586928dc
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Character_Player_Arm_L_Ctrl
+    100002: Character_Player_Arm_R_Ctrl
+    100004: Character_Player_Elbow_R_Ctrl
+    100006: Character_Player_Elbow_R_Ctrl 1
+    100008: Character_Player_Joint_Arm_L
+    100010: Character_Player_Joint_Arm_R
+    100012: Character_Player_Joint_Elbow_L
+    100014: Character_Player_Joint_Elbow_R
+    100016: Character_Player_Joint_Hand_L
+    100018: Character_Player_Joint_Hand_R
+    100020: Character_Player_Joint_Neck
+    100022: Character_Player_Joint_Root
+    100024: Character_Player_Joint_Shoulder
+    100026: Character_Player_Joint_Waist
+    100028: Character_Player_Model
+    100030: Character_Player_Neck_Ctrl
+    100032: Character_Player_RIG_DONTTOUCH
+    100034: //RootNode
+    100036: Character_Player_Root_Ctrl
+    100038: Character_Player_Shoulders_Ctrl
+    100040: Character_Player_Waist_Ctrl
+    100042: Character_Player_WeaponPlaceholder_Mesh
+    400000: Character_Player_Arm_L_Ctrl
+    400002: Character_Player_Arm_R_Ctrl
+    400004: Character_Player_Elbow_R_Ctrl
+    400006: Character_Player_Elbow_R_Ctrl 1
+    400008: Character_Player_Joint_Arm_L
+    400010: Character_Player_Joint_Arm_R
+    400012: Character_Player_Joint_Elbow_L
+    400014: Character_Player_Joint_Elbow_R
+    400016: Character_Player_Joint_Hand_L
+    400018: Character_Player_Joint_Hand_R
+    400020: Character_Player_Joint_Neck
+    400022: Character_Player_Joint_Root
+    400024: Character_Player_Joint_Shoulder
+    400026: Character_Player_Joint_Waist
+    400028: Character_Player_Model
+    400030: Character_Player_Neck_Ctrl
+    400032: Character_Player_RIG_DONTTOUCH
+    400034: //RootNode
+    400036: Character_Player_Root_Ctrl
+    400038: Character_Player_Shoulders_Ctrl
+    400040: Character_Player_Waist_Ctrl
+    400042: Character_Player_WeaponPlaceholder_Mesh
+    2100000: lambert2
+    2100002: CharaRigTest_Attack_Animation__1__lambert2
+    4300000: Character_Player_Model
+    4300002: Character_Player_WeaponPlaceholder_Mesh
+    9500000: //RootNode
+    13700000: Character_Player_Model
+    13700002: Character_Player_WeaponPlaceholder_Mesh
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -6,25 +6,13 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy_001_AnimatedMesh_Lantern_001
+  m_Name: Lantern_RigOnly
   serializedVersion: 5
-  m_AnimatorParameters:
-  - m_Name: Is Idle
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Attacking
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+  m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
-    m_StateMachine: {fileID: 1107939674194555448}
+    m_StateMachine: {fileID: 1107684322046877778}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -34,14 +22,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &1102596996638572820
+--- !u!1102 &1102489846777845010
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: Take 001
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -54,13 +42,13 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 63f1fd8e8ccf58946a8529c46e0b0098, type: 3}
+  m_Motion: {fileID: 7400000, guid: ac1f24f18ab4cf04e96baade5c25781a, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1107 &1107939674194555448
+--- !u!1107 &1107684322046877778
 AnimatorStateMachine:
   serializedVersion: 5
   m_ObjectHideFlags: 1
@@ -70,7 +58,7 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 1102596996638572820}
+    m_State: {fileID: 1102489846777845010}
     m_Position: {x: 200, y: 0, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
@@ -78,7 +66,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 48, y: 144, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102596996638572820}
+  m_DefaultState: {fileID: 1102489846777845010}

@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 54f8244040e8e2f46bf652664d7d69f2
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Exterior_001_Mesh_Floor_001
+    100002: Exterior_001_Mesh_FloorBottom_001
+    100004: Exterior_001_Mesh_Stairs_001
+    100006: Exterior_001_Mesh_TopWall_001
+    100008: Exterior_001_Mesh_Yokai_001
+    100010: group5
+    100012: group6
+    100014: pasted__Interior_001_Mesh_ShojiDoor_001
+    100016: pasted__Interior_001_Mesh_ShojiDoor_002
+    100018: pasted__Interior_001_Mesh_ShojiWall_001
+    100020: pasted__Interior_001_Mesh_ShojiWall_002
+    100022: pasted__Interior_001_Mesh_ShojiWall_003
+    100024: pasted__Interior_001_Mesh_ShojiWall_004
+    100026: pCube9
+    100028: polySurface19
+    100030: polySurface2
+    100032: polySurface20
+    100034: polySurface3
+    100036: polySurface4
+    100038: //RootNode
+    100040: transform1
+    100042: transform2
+    100044: transform3
+    100046: transform4
+    100048: transform5
+    400000: Exterior_001_Mesh_Floor_001
+    400002: Exterior_001_Mesh_FloorBottom_001
+    400004: Exterior_001_Mesh_Stairs_001
+    400006: Exterior_001_Mesh_TopWall_001
+    400008: Exterior_001_Mesh_Yokai_001
+    400010: group5
+    400012: group6
+    400014: pasted__Interior_001_Mesh_ShojiDoor_001
+    400016: pasted__Interior_001_Mesh_ShojiDoor_002
+    400018: pasted__Interior_001_Mesh_ShojiWall_001
+    400020: pasted__Interior_001_Mesh_ShojiWall_002
+    400022: pasted__Interior_001_Mesh_ShojiWall_003
+    400024: pasted__Interior_001_Mesh_ShojiWall_004
+    400026: pCube9
+    400028: polySurface19
+    400030: polySurface2
+    400032: polySurface20
+    400034: polySurface3
+    400036: polySurface4
+    400038: //RootNode
+    400040: transform1
+    400042: transform2
+    400044: transform3
+    400046: transform4
+    400048: transform5
+    2100000: Character_Selection
+    2100002: pasted__Wall_N_Floor
+    2100004: pasted__Wall_N_Floor1
+    2300000: Exterior_001_Mesh_Floor_001
+    2300002: Exterior_001_Mesh_FloorBottom_001
+    2300004: Exterior_001_Mesh_Stairs_001
+    2300006: Exterior_001_Mesh_TopWall_001
+    2300008: Exterior_001_Mesh_Yokai_001
+    2300010: pasted__Interior_001_Mesh_ShojiDoor_001
+    2300012: pasted__Interior_001_Mesh_ShojiDoor_002
+    2300014: pasted__Interior_001_Mesh_ShojiWall_001
+    2300016: pasted__Interior_001_Mesh_ShojiWall_002
+    2300018: pasted__Interior_001_Mesh_ShojiWall_003
+    2300020: pasted__Interior_001_Mesh_ShojiWall_004
+    3300000: Exterior_001_Mesh_Floor_001
+    3300002: Exterior_001_Mesh_FloorBottom_001
+    3300004: Exterior_001_Mesh_Stairs_001
+    3300006: Exterior_001_Mesh_TopWall_001
+    3300008: Exterior_001_Mesh_Yokai_001
+    3300010: pasted__Interior_001_Mesh_ShojiDoor_001
+    3300012: pasted__Interior_001_Mesh_ShojiDoor_002
+    3300014: pasted__Interior_001_Mesh_ShojiWall_001
+    3300016: pasted__Interior_001_Mesh_ShojiWall_002
+    3300018: pasted__Interior_001_Mesh_ShojiWall_003
+    3300020: pasted__Interior_001_Mesh_ShojiWall_004
+    4300000: Exterior_001_Mesh_Floor_001
+    4300002: Exterior_001_Mesh_TopWall_001
+    4300004: Exterior_001_Mesh_Stairs_001
+    4300006: Exterior_001_Mesh_Yokai_001
+    4300008: Exterior_001_Mesh_FloorBottom_001
+    4300010: pasted__Interior_001_Mesh_ShojiWall_001
+    4300012: pasted__Interior_001_Mesh_ShojiWall_002
+    4300014: pasted__Interior_001_Mesh_ShojiWall_003
+    4300016: pasted__Interior_001_Mesh_ShojiWall_004
+    4300018: pasted__Interior_001_Mesh_ShojiDoor_001
+    4300020: pasted__Interior_001_Mesh_ShojiDoor_002
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

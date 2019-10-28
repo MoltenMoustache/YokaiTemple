@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     bool isGodMode;
     [SerializeField] float godmodeDuration;
 
-    PlayerConnection connection;
+    //PlayerConnection connection;
     RitualSite ritualSite;
 
     // Start is called before the first frame update
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
 
-        connection = new PlayerConnection(this, GameManager.instance.GetConnectionManager());
+        //connection = new PlayerConnection(this, GameManager.instance.GetConnectionManager());
 
         // Get model references
     }

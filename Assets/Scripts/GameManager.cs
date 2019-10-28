@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI ritualText;
 
     // Connections
-    ConnectionManager connectionManager;
+    //ConnectionManager connectionManager;
 
     public int ritualProgress = 0;
     public int maxRitual;
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        connectionManager = new ConnectionManager();
+       // connectionManager = new ConnectionManager();
         progressBar.maxValue = maxRitual;
         InitializePlayers();
     }
@@ -63,10 +63,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public ConnectionManager GetConnectionManager()
-    {
-        return connectionManager;
-    }
+    //public ConnectionManager GetConnectionManager()
+    //{
+    //    return connectionManager;
+    //}
 
     void InitializePlayers()
     {

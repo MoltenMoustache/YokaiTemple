@@ -44,10 +44,6 @@ public class ButtonManager : MonoBehaviour
         // If menu is enabled
         if (!IsDisabled)
         {
-
-
-
-
             // Main Menu Only
             if (button[buttonIndex].GetComponent<ButtonBehavior>().IsMainMenu)
             {

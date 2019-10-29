@@ -21,17 +21,19 @@ public class AttackCone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        Debug.Log("Trigger entered.");
+        if (other.tag == "Enemy")
         {
+            Debug.Log("Enemy entered trigger.");
             enemiesInRange.Add(other.GetComponent<Enemy>());
         }
 
-        if(other.tag == "Projectile")
+        if (other.tag == "Projectile")
         {
             projectilesInRange.Add(other.gameObject);
         }
@@ -39,7 +41,7 @@ public class AttackCone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Enemy")
+        if (other.tag == "Enemy")
         {
             Enemy enemyLeaving = other.GetComponent<Enemy>();
             if (enemiesInRange.Contains(enemyLeaving))
@@ -48,7 +50,7 @@ public class AttackCone : MonoBehaviour
             }
         }
 
-        if(other.tag == "Projectile")
+        if (other.tag == "Projectile")
         {
             GameObject projectileLeaving = other.gameObject;
             if (projectilesInRange.Contains(projectileLeaving))

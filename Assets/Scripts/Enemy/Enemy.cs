@@ -8,16 +8,17 @@ public class Enemy : MonoBehaviour
     [HideInInspector] protected Camera cam;
     public float lookRadius = 10f;
     [HideInInspector] protected Transform target;
+
+    [Header("Attacking")]
     public float attackDistance = 1.5f;
-    public int damage = 1;
-    public float attackSpeed = 1f;
-    public float attackCooldown = 0f;
+    [SerializeField] int damage = 1;
+    [SerializeField] float attackCooldown = 0f;
 
     // health Variables
     [SerializeField] protected int maxHealth;
     protected int currentHealth;
 
-    public NavMeshAgent agent;
+    NavMeshAgent agent;
 
     protected Vector3 targetPos;
     protected GameObject[] players;
@@ -87,12 +88,14 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     protected void FaceTarget()
     {
         Transform targetTransform = null;
         targetTransform.position = new Vector3(target.transform.position.x, 0, target.transform.position.z);
         transform.LookAt(targetTransform);
     }
+
     protected Transform GetClosestPlayer()
     {
         float distance = Mathf.Infinity;

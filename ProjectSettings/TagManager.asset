@@ -10,6 +10,10 @@ TagManager:
   - CheckTwo
   - CheckThree
   - CheckFour
+  - P1HUD
+  - P2HUD
+  - P3HUD
+  - P4HUD
   layers:
   - Default
   - TransparentFX

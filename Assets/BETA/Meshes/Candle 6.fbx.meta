@@ -1,25 +1,19 @@
 fileFormatVersion: 2
-guid: de2f1180a4dcfb14484b846ed8fffae5
+guid: 1bc6c393439bb6746a0b8f9485bbd677
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pasted__pCone1
-    100004: pasted__pCone2
-    100006: pasted__pCylinder1
-    100008: pasted__transform1
-    100010: pasted__transform2
+    100002: pasted__group
+    100004: pasted__pasted__pCone2
     400000: //RootNode
-    400002: pasted__pCone1
-    400004: pasted__pCone2
-    400006: pasted__pCylinder1
-    400008: pasted__transform1
-    400010: pasted__transform2
+    400002: pasted__group
+    400004: pasted__pasted__pCone2
     2100000: lambert2
-    2100002: lambert1
-    2300000: pasted__pCone2
-    3300000: pasted__pCone2
-    4300000: pasted__pCone2
+    2100002: lambert3
+    2300000: pasted__pasted__pCone2
+    3300000: pasted__pasted__pCone2
+    4300000: pasted__pasted__pCone2
   externalObjects: {}
   materials:
     importMaterials: 1

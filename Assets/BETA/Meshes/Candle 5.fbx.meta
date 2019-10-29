@@ -1,27 +1,17 @@
 fileFormatVersion: 2
-guid: fb9a5129fab58d84c82ba44d6c6a3be3
+guid: 828a95c1491205244b7bf4d5878840bd
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pCone1
-    100004: pCone2
-    100006: pCylinder1
-    100008: transform1
-    100010: transform2
+    100002: pasted__pCone2
     400000: //RootNode
-    400002: pCone1
-    400004: pCone2
-    400006: pCylinder1
-    400008: transform1
-    400010: transform2
-    2100000: lambert2
-    2100002: lambert1
-    2300000: pCone2
-    3300000: pCone2
-    4300000: pCone2
-    7400000: Take 001
-    9500000: //RootNode
+    400002: pasted__pCone2
+    2100000: lambert4
+    2100002: lambert5
+    2300000: pasted__pCone2
+    3300000: pasted__pCone2
+    4300000: pasted__pCone2
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -75,7 +65,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -102,7 +92,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

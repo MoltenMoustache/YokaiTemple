@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using XboxCtrlrInput;
 
 public class ButtonManager : MonoBehaviour
 {
     public bool IsDisabled;
     public List<GameObject> button;
-    public Vector3 DefaultPos;
     public int ChoiceIndex = 0;
     int buttonTotal;
     int buttonIndex;
     public GameObject MainMenuCanvas;
     public GameObject OptionCanvas;
-    public bool PlayerSelection = false;
     public int MenuIndicatorSpeed = 2000;
+    float ButtonTimer = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,44 +35,21 @@ public class ButtonManager : MonoBehaviour
 
         buttonIndex = 0;
         buttonTotal = button.Count;
-
-        DefaultPos = transform.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
+        ButtonTimer += Time.deltaTime * 5.0f;
+
         // If menu is enabled
         if (!IsDisabled)
         {
             // Main Menu Only
             if (button[buttonIndex].GetComponent<ButtonBehavior>().IsMainMenu)
             {
-                if (PlayerSelection)
-                {
-                    if (transform.localPosition.x > -1200)
-                    {
-                        transform.position = new Vector3(transform.position.x - MenuIndicatorSpeed * Time.deltaTime, transform.position.y, transform.position.z);
-                    }
-                }
-                else if (!PlayerSelection)
-                {
-                    if (transform.localPosition.x < DefaultPos.x)
-                    {
-                        transform.position = new Vector3(transform.position.x + MenuIndicatorSpeed * Time.deltaTime, transform.position.y, transform.position.z);
-                    }
-                    else
-                    {
-                        if (transform.localPosition.x > DefaultPos.x + 20)
-                        {
-                            transform.localPosition = new Vector3(DefaultPos.x + 5, transform.localPosition.y, transform.localPosition.z);
-                        }
-                    }
-                }
-
-
                 // Menu Up
-                if (Input.GetKeyUp(KeyCode.DownArrow))
+                if (XCI.GetDPadUp(XboxDPad.Down))
                 {
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                     buttonIndex++;
@@ -83,7 +61,7 @@ public class ButtonManager : MonoBehaviour
                 }
 
                 // Menu Down
-                if (Input.GetKeyUp(KeyCode.UpArrow))
+                if (XCI.GetDPadUp(XboxDPad.Up))
                 {
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                     buttonIndex--;
@@ -96,8 +74,9 @@ public class ButtonManager : MonoBehaviour
             }
 
             // Indicate button was pressed
-            if (Input.GetKeyUp(KeyCode.Space) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice && !button[buttonIndex].GetComponent<ButtonBehavior>().IsFunctionButton)
+            if (XCI.GetButtonUp(XboxButton.A) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice && !button[buttonIndex].GetComponent<ButtonBehavior>().IsFunctionButton && ButtonTimer > 1.0f)
             {
+
                 button[buttonIndex].GetComponent<ButtonBehavior>().Pressed = true;
 
                 if (button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled)
@@ -105,13 +84,15 @@ public class ButtonManager : MonoBehaviour
                 else
                     button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = true;
 
-                button[buttonIndex].GetComponent<ButtonBehavior>().ButtonTimer = 1.0f;
+               ButtonTimer = 0.0f;
             }
-            
+
             // If Button Has a function
-            else if (Input.GetKeyUp(KeyCode.Space) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice)
-            {                                        
+            else if (XCI.GetButtonUp(XboxButton.A) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice && ButtonTimer > 1.0f)
+            {
                 ButtonFunction(button[buttonIndex].GetComponent<ButtonBehavior>().ButtonName);
+                ButtonTimer = 0.0f;
+
             }
 
 
@@ -121,7 +102,7 @@ public class ButtonManager : MonoBehaviour
                 // MultiChoice
                 if (button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice)
                 {
-                    if (Input.GetKeyUp(KeyCode.RightArrow))
+                    if (XCI.GetDPadUp(XboxDPad.Right))
                     {
                         ChoiceIndex++;
                         if (ChoiceIndex > button[buttonIndex].GetComponent<ButtonBehavior>().Choices.Length - 1)
@@ -132,7 +113,7 @@ public class ButtonManager : MonoBehaviour
                         button[buttonIndex].GetComponent<ButtonBehavior>().ChoiceDisplay.text = button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice;
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.LeftArrow))
+                    else if (XCI.GetDPadUp(XboxDPad.Left))
                     {
                         ChoiceIndex--;
                         if (ChoiceIndex < 0)
@@ -143,14 +124,14 @@ public class ButtonManager : MonoBehaviour
                         button[buttonIndex].GetComponent<ButtonBehavior>().ChoiceDisplay.text = button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice;
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.DownArrow) && buttonIndex == 6)
+                    else if (XCI.GetDPadUp(XboxDPad.Down) && buttonIndex == 6)
                     {
                         button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                         buttonIndex++;
                         button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.UpArrow) && buttonIndex == 6)
+                    else if (XCI.GetDPadUp(XboxDPad.Up) && buttonIndex == 6)
                     {
                         button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                         buttonIndex = 2;
@@ -160,7 +141,7 @@ public class ButtonManager : MonoBehaviour
                 // Non MultiCoice
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.LeftArrow))
+                    if (XCI.GetDPadUp(XboxDPad.Left))
                     {
                         if (buttonIndex == 3 || buttonIndex == 4 || buttonIndex == 5)
                         {
@@ -176,7 +157,7 @@ public class ButtonManager : MonoBehaviour
                         }
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.RightArrow))
+                    else if (XCI.GetDPadUp(XboxDPad.Right))
                     {
                         if (buttonIndex == 0 || buttonIndex == 1 || buttonIndex == 2)
                         {
@@ -192,7 +173,7 @@ public class ButtonManager : MonoBehaviour
                         }
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.DownArrow))
+                    else if (XCI.GetDPadUp(XboxDPad.Down))
                     {
                         if (buttonIndex == 2 || buttonIndex == 5)
                         {
@@ -220,7 +201,7 @@ public class ButtonManager : MonoBehaviour
                         }
                     }
 
-                    else if (Input.GetKeyUp(KeyCode.UpArrow))
+                    else if (XCI.GetDPadUp(XboxDPad.Up))
                     {
                         if (buttonIndex == 6)
                         {
@@ -256,7 +237,9 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
+
         }
+
     }
 
 
@@ -265,7 +248,11 @@ public class ButtonManager : MonoBehaviour
         // Main Menu
         if (buttonName == "Play")
         {
-            PlayerSelection = (PlayerSelection ? false : true);
+
+                SceneManager.LoadSceneAsync(1);
+
+
+
         }
 
         if (buttonName == "Options")

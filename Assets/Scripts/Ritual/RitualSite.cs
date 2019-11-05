@@ -33,6 +33,11 @@ public class RitualSite : MonoBehaviour
 
     List<Enemy> enemiesInRange = new List<Enemy>();
 
+    private void Awake()
+    {
+        buttonPrompt = GameObject.FindGameObjectWithTag("ButtonPrompt").GetComponent<Image>();
+        lockedText = GameObject.FindGameObjectWithTag("LockedText").GetComponent<TextMeshProUGUI>();
+    }
     void Start()
     {
         buttonPrompt.enabled = false;

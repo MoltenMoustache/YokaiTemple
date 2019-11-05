@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XboxCtrlrInput;
+using TMPro;
 
 [System.Serializable]
 public class Button
@@ -24,21 +25,115 @@ public class RitualSite : MonoBehaviour
     [SerializeField] int ritualDecrement;
 
     List<PlayerController> playersInRange = new List<PlayerController>();
-
     PlayerController castingPlayer;
+    [SerializeField] GameObject castingPosition;
+
+    bool isLocked;
+    [SerializeField] TextMeshProUGUI lockedText;
+
+    List<Enemy> enemiesInRange = new List<Enemy>();
+
+    void Start()
+    {
+        buttonPrompt.enabled = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        CheckEnemiesInRange();
 
-        QueryButton();
+        if (GameManager.instance.CheckForDownedPlayers())
+        {
+            LockRitual();
+        }
+        else
+        {
+            if (enemiesInRange.Count == 0)
+            {
+                UnlockRitual();
+            }
+        }
+
+        if (!isLocked)
+        {
+            QueryButton();
+        }
+    }
+
+    void CheckEnemiesInRange()
+    {
+        if (enemiesInRange.Count > 0)
+        {
+            List<Enemy> nullEnemies = new List<Enemy>();
+            foreach (var enemy in enemiesInRange)
+            {
+                if (enemy == null)
+                {
+                    nullEnemies.Add(enemy);
+                }
+            }
+
+            foreach (var enemy in nullEnemies)
+            {
+                enemiesInRange.Remove(enemy);
+            }
+
+            nullEnemies.Clear();
+        }
+    }
+
+    void LockRitual()
+    {
+        // 'Lock' ritual
+        isLocked = true;
+
+        // Disables the button prompt
+        buttonPrompt.enabled = false;
+
+        // Enable lock text
+        if (!lockedText.enabled)
+            lockedText.enabled = true;
+
+        if(playersInRange.Count > 0)
+        {
+            foreach (var play in playersInRange)
+            {
+                play.IsInRitual(false, this);
+            }
+        }
+    }
+
+    void UnlockRitual()
+    {
+        // 'Unlock' ritual
+        isLocked = false;
+
+        // Disable lock text
+        if (lockedText.enabled)
+            lockedText.enabled = false;
+
+        if(playersInRange.Count > 0)
+        {
+            foreach (var play in playersInRange)
+            {
+                play.IsInRitual(true, this);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !isLocked)
         {
-            other.GetComponent<PlayerController>().IsInRitual(true, this);
+            PlayerController play = other.GetComponent<PlayerController>();
+            playersInRange.Add(play);
+            play.IsInRitual(true, this);
+        }
+        else if (other.tag == "Enemy")
+        {
+            enemiesInRange.Add(other.GetComponent<Enemy>());
+            LockRitual();
         }
     }
 
@@ -46,7 +141,17 @@ public class RitualSite : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerController>().IsInRitual(false, this);
+            PlayerController play = other.GetComponent<PlayerController>();
+            play.IsInRitual(false, this);
+            playersInRange.Remove(play);
+        }
+        else if (other.tag == "Enemy")
+        {
+            enemiesInRange.Remove(other.GetComponent<Enemy>());
+            if (enemiesInRange.Count == 0 && !GameManager.instance.CheckForDownedPlayers())
+            {
+                UnlockRitual();
+            }
         }
     }
 
@@ -70,7 +175,7 @@ public class RitualSite : MonoBehaviour
             castingPlayer = a_player;
 
             // Moves player to center of ritual site
-            castingPlayer.transform.position = new Vector3(transform.position.x, castingPlayer.transform.position.y, transform.position.z);
+            castingPlayer.transform.position = new Vector3(castingPosition.transform.position.x, castingPlayer.transform.position.y, castingPosition.transform.position.z);
 
             buttonPrompt.enabled = true;
             imageColour.a = 1;

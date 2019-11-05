@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 8964482623362251093}
   - component: {fileID: 8964482623362251092}
   m_Layer: 0
-  m_Name: Enemy_001_Yurei_001
+  m_Name: Yurei
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -786,7 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookRadius: 10
-  attackDistance: 0.5
+  attackDistance: 1
   damage: 1
   attackCooldown: 0
   maxHealth: 5

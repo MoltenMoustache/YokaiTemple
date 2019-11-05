@@ -135,12 +135,24 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if(other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            other.GetComponent<PlayerController>().TakeDamage(damage);
+            PlayerController play = other.gameObject.GetComponent<PlayerController>();
+            Debug.Log(play.player + " player hit for " + damage + " damage!");
+
+            play.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.tag == "Player")
+    //    {
+    //        other.GetComponent<PlayerController>().TakeDamage(damage);
+    //        Destroy(gameObject);
+    //    }
+    //}
 }

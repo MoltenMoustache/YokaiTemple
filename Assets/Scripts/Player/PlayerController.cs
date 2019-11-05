@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool hasJoined;
 
     // Movement Variables
+    [Header("Movement/Dash")]
     [SerializeField] float moveSpeed;
     float verticalAxis;
     float horizontalAxis;
@@ -33,33 +34,30 @@ public class PlayerController : MonoBehaviour
     // Ritual Variables
     [HideInInspector] public int ritualContribution;
     Slider ritualBar;
-    public bool isCasting;
+    [HideInInspector] public bool isCasting;
     [HideInInspector] public bool hasFinishedRitual;
 
     // Reviving Variables
-     public bool isDown;
+    [HideInInspector] public bool isDown;
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
     bool isBeingRevived;
 
-    // Health Variables
-    int currentHealth;
-    [SerializeField] int maxHealth;
-    [SerializeField] GameObject[] healthIcons;
+    [Header("Health")]
+    public int maxHealth;     // public for the ^ header
+    public int currentHealth;
+    GameObject healthIconParent;
+    [SerializeField] List<GameObject> healthIcons = new List<GameObject>();
 
     // Combat Variables
+    [Header("Attacking")]
+    public float hitSpeed;
     AttackCone attackCone;
-    [SerializeField] float hitSpeed;
     [SerializeField] float attackDelay;
-    bool canAttack;
+    public bool canAttack;
 
     // Other References
     Rigidbody rb;
-
-    // Model References (TEMPORARY)
-    GameObject deadModel;
-    GameObject rootObject;
-    GameObject samuraiObject;
 
     // UI
     [SerializeField] GameObject hudObject;
@@ -68,7 +66,6 @@ public class PlayerController : MonoBehaviour
     bool isGodMode;
     [SerializeField] float godmodeDuration;
 
-    //PlayerConnection connection;
     RitualSite ritualSite;
 
     // Start is called before the first frame update
@@ -81,19 +78,31 @@ public class PlayerController : MonoBehaviour
         // Reference to Animator component
         animator = GetComponent<Animator>();
 
-        // Gets both the ritual bar and revive bar references
-        ritualBar = hudObject.transform.Find("Progress Bar").GetComponent<Slider>();
-        reviveBar = hudObject.transform.Find("Revive Bar").GetComponent<Slider>();
-        interactPrompt = hudObject.transform.Find("InteractPrompt").GetComponent<Image>();
-
         attackCone = transform.Find("Attack Cone").GetComponent<AttackCone>();
-        dashParticle = transform.Find("Dash").GetComponent<ParticleSystem>();
 
         currentHealth = maxHealth;
+    }
 
-        //connection = new PlayerConnection(this, GameManager.instance.GetConnectionManager());
+    public void InitializePlayer(GameObject a_hudObject, XboxController a_player)
+    {
+        player = a_player;
+        hudObject = a_hudObject;
 
-        // Get model references
+        if (hudObject)
+        {
+            hudObject.SetActive(true);
+            ritualBar = hudObject.transform.Find("Progress Slider").GetComponent<Slider>();
+            reviveBar = hudObject.transform.Find("Revive Bar").GetComponent<Slider>();
+            interactPrompt = hudObject.transform.Find("Interact Prompt").GetComponent<Image>();
+            healthIconParent = hudObject.transform.Find("Health Icons").gameObject;
+
+            Transform[] childIcons = healthIconParent.GetComponentsInChildren<Transform>();
+            foreach (Transform child in childIcons)
+            {
+                healthIcons.Add(child.gameObject);
+                healthIcons.Remove(healthIconParent);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -103,6 +112,34 @@ public class PlayerController : MonoBehaviour
         // Followed this tutorial ^
 
 
+        #region Debug Controls
+        if (XCI.GetButtonDown(XboxButton.LeftBumper, player) || Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Hello!");
+            TakeDamage(5);
+        }
+
+        if (XCI.GetButtonDown(XboxButton.RightBumper, player) || Input.GetKeyDown(KeyCode.E))
+        {
+            RevivePlayer(true);
+        }
+
+        if (XCI.GetButtonDown(XboxButton.DPadDown, player) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            TakeDamage(1);
+        }
+
+        if (XCI.GetButtonDown(XboxButton.DPadLeft, player))
+        {
+            TakeDamage(2);
+        }
+
+        if (XCI.GetButtonDown(XboxButton.DPadUp, XboxController.First) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            HealDamage(1);
+        }
+        #endregion
+
         // Gets the axis
         verticalAxis = XCI.GetAxis(XboxAxis.LeftStickY, player);
         horizontalAxis = XCI.GetAxis(XboxAxis.LeftStickX, player);
@@ -111,7 +148,67 @@ public class PlayerController : MonoBehaviour
         if (!isDown && !isCasting)
             Rotate();
 
-        // Dash
+
+        if (reviveBar)
+        {
+            ReviveAction();
+            DecayBar();
+        }
+
+        // Ritual
+        if (ritualSite != null)
+        {
+            // If the player presses X in the ritual and theres no enemies in their attack cone, start casting the ritual.
+            if (XCI.GetButtonDown(XboxButton.X, player) && !isCasting && canAttack)
+            {
+                CheckForNullEnemies();
+
+                if (attackCone.enemiesInRange.Count == 0)
+                {
+                    Debug.LogWarning("No enemies in range and can attack");
+                    if (ritualSite.StartRitual(this))
+                    {
+                        ToggleInteractPrompt(false);
+                        isCasting = true;
+                        GetComponent<Rigidbody>().isKinematic = true;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Enemies in range or cant attack...");
+                }
+            }
+
+            if (isCasting)
+            {
+                // If the player is downed, stop casting the ritual.
+                if (isDown)
+                {
+                    StopCasting(false);
+                }
+
+                // If player moves joystick, stop casting the ritual.
+                if (XCI.GetAxis(XboxAxis.LeftStickX, player) > 0.5 || XCI.GetAxis(XboxAxis.LeftStickY, player) > 0.5 ||
+                        XCI.GetAxis(XboxAxis.LeftStickX, player) < -0.4 || XCI.GetAxis(XboxAxis.LeftStickY, player) < -0.4)
+                {
+                    StopCasting(true);
+                    GetComponent<Rigidbody>().isKinematic = false;
+                }
+            }
+            
+            // UI
+            if (interactPrompt.color != Color.clear)
+            {
+                MoveInteractPrompt();
+            }
+
+        }
+
+        // Allows revival
+        ReviveAction();
+        DecayBar();
+
+        // Dash & Attack
         if (!isCasting)
         {
             // if the A button is pressed and the player can dash
@@ -124,99 +221,11 @@ public class PlayerController : MonoBehaviour
             // If the X button is pressed and the player can attack
             if (XCI.GetButtonDown(XboxButton.X, player))
             {
+                CheckForNullEnemies();
+
                 // Attack
                 StartCoroutine(Attack());
             }
-        }
-
-        ReviveAction();
-        DecayBar();
-
-        // Ritual
-        if (ritualSite != null)
-        {
-            if (XCI.GetButtonDown(XboxButton.X, player) && !isCasting)
-            {
-                if (ritualSite.StartRitual(this))
-                {
-                    ToggleInteractPrompt(false);
-                    isCasting = true;
-                    GetComponent<Rigidbody>().isKinematic = true;
-                    //}
-                    //else
-                    //{
-                    //    isCasting = false;
-                    //    ToggleInteractPrompt(true);
-                    //}
-                }
-            }
-
-            if (isCasting)
-            {
-                if (isDown)
-                {
-                    StopCasting(false);
-                }
-
-                if (XCI.GetAxis(XboxAxis.LeftStickX, player) > 0.5 || XCI.GetAxis(XboxAxis.LeftStickY, player) > 0.5 ||
-                        XCI.GetAxis(XboxAxis.LeftStickX, player) < -0.4 || XCI.GetAxis(XboxAxis.LeftStickY, player) < -0.4)
-                {
-                    StopCasting(true);
-                    GetComponent<Rigidbody>().isKinematic = false;
-                }
-            }
-
-            // If the controller is not plugged in, leave the game
-            if (!XCI.IsPluggedIn((int)player) && gameObject.activeSelf)
-            {
-                LeaveGame();
-            }
-            else if (!hasJoined)
-            {
-                JoinGame();
-            }
-
-            // Allows revival
-            ReviveAction();
-            DecayBar();
-
-            // UI
-            if (interactPrompt.color != Color.clear)
-            {
-                MoveInteractPrompt();
-            }
-
-            #region Debug Controls
-            if (XCI.GetButtonDown(XboxButton.LeftBumper, player))
-            {
-                DownPlayer();
-            }
-
-            if (XCI.GetButtonDown(XboxButton.RightBumper, player))
-            {
-                RevivePlayer(true);
-            }
-
-            if (XCI.GetButtonDown(XboxButton.DPadDown, player))
-            {
-                TakeDamage(1);
-            }
-
-            if (XCI.GetButtonDown(XboxButton.DPadLeft, player))
-            {
-                TakeDamage(2);
-            }
-
-            if (XCI.GetButtonDown(XboxButton.DPadUp, XboxController.First))
-            {
-                HealDamage(1);
-            }
-            #endregion
-        }
-
-        if(XCI.GetButtonDown(XboxButton.LeftBumper, player))
-        {
-            TakeDamage(5);
         }
     }
 
@@ -273,16 +282,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Joining/Leaving Game
-    public void JoinGame()
-    {
-        // If the player has not already joined the game...
-        if (!hasJoined)
-        {
-            // Enable the hud object and the player object itself
-            hudObject.SetActive(true);
-            gameObject.SetActive(true);
-        }
-    }
 
     void LeaveGame()
     {
@@ -295,8 +294,6 @@ public class PlayerController : MonoBehaviour
         ritualContribution = 0;
         gameObject.SetActive(false);
         // Subtracts the current player's progress from the overall ritual progress
-        // Update the player count in the game manager
-        GameManager.instance.UpdatePlayerCount();
     }
     #endregion
 
@@ -324,9 +321,9 @@ public class PlayerController : MonoBehaviour
         moveSpeed += dashForce;
         canDash = false;
 
-        Vector3 eulerRotation = new Vector3(dashParticle.transform.eulerAngles.x, transform.eulerAngles.y + 180, dashParticle.transform.eulerAngles.z);
-        dashParticle.transform.rotation = Quaternion.Euler(eulerRotation);
-        dashParticle.Play();
+        //Vector3 eulerRotation = new Vector3(dashParticle.transform.eulerAngles.x, transform.eulerAngles.y + 180, dashParticle.transform.eulerAngles.z);
+        //dashParticle.transform.rotation = Quaternion.Euler(eulerRotation);
+        //dashParticle.Play();
 
         // For dashDuration seconds.
         yield return new WaitForSeconds(dashDuration);
@@ -531,6 +528,7 @@ public class PlayerController : MonoBehaviour
         if (!isGodMode)
         {
             currentHealth -= a_dmg;
+            Debug.Log("Damage taken!" + a_dmg);
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
@@ -573,6 +571,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(FlashGodmode());
         }
     }
+
     IEnumerator FlashGodmode()
     {
         isGodMode = true;
@@ -600,35 +599,54 @@ public class PlayerController : MonoBehaviour
     }
     #endregion\
 
+    void CheckForNullEnemies()
+    {
+        // 
+        List<Enemy> nullEnemies = new List<Enemy>();
+
+        // Iterates through all enemies to check for null references...
+        foreach (var enemy in attackCone.enemiesInRange)
+        {
+            if (enemy == null)
+            {
+                // Adds null reference to list
+                nullEnemies.Add(enemy);
+            }
+        }
+
+        if (nullEnemies.Count > 0)
+        {
+            // Iterates through all found null references and removes them from the enemiesInRange list
+            foreach (var enemy in nullEnemies)
+            {
+                attackCone.enemiesInRange.Remove(enemy);
+            }
+
+            // Clear the null reference list
+            nullEnemies.Clear();
+        }
+    }
+
     IEnumerator Attack()
     {
         // The player can't attack until...
         canAttack = false;
-        //animator.SetBool("isAttacking", true);
-
 
 
         // Check if enemies are within the cone...
         if (attackCone.enemiesInRange.Count > 0)
         {
+            // Set target enemy and look at enemy
             Enemy targetEnemy = attackCone.enemiesInRange[0];
-            if (targetEnemy == null)
-            {
-                attackCone.enemiesInRange.Remove(targetEnemy);
-                yield return null;
-            }
-            else
-            {
-                transform.LookAt(targetEnemy.transform);
-            }
+            transform.LookAt(targetEnemy.transform);
 
-            targetEnemy.TakeDamage(10);
+            // Remove enemy from list and kill enemy
             attackCone.enemiesInRange.Remove(targetEnemy);
+            targetEnemy.TakeDamage(10);
 
-            transform.position = transform.position + transform.forward;
+            //transform.position = transform.position + transform.forward;
 
             // CHECK IF HEALTH IS LESS THAN 10
-            attackCone.enemiesInRange.Remove(targetEnemy);
         }
 
         // If projectiles are within the cone...
@@ -650,12 +668,6 @@ public class PlayerController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.25f);
-        animator.SetBool("isAttacking", false);
-        // the cooldown has finished
-        //yield return new WaitForSeconds(attackDelay);
-
-        //// the player can now attack
-        //yield return new WaitForSeconds(0.25f);
         canAttack = true;
 
     }

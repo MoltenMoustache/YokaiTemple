@@ -27,40 +27,30 @@ public class GameManager : MonoBehaviour
     // References
     [SerializeField] TextMeshProUGUI ritualText;
 
-    // Connections
-    //ConnectionManager connectionManager;
-
     public int ritualProgress = 0;
     public int maxRitual;
     [SerializeField] Slider progressBar;
     [SerializeField] Checkpoint[] checkpoints;
     GameObject[] checkpointObjects;
-    [SerializeField] GameObject[] players;
+    List<GameObject> players = new List<GameObject>();
     GameObject[] currentPlayers;
     int currentPlayerCount;
     [SerializeField] GameObject gameoverCanvas;
     [SerializeField] GameObject pauseCanvas;
+    [SerializeField] GameObject playerPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-       // connectionManager = new ConnectionManager();
-        progressBar.maxValue = maxRitual;
+        if (progressBar)
+            progressBar.maxValue = maxRitual;
         InitializePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (XCI.GetButtonDown(XboxButton.Start, XboxController.All))
-        //{
-        //    PauseGame(!pauseCanvas.activeSelf);
-        //}
 
-        if (CheckGameOver())
-        {
-            StartCoroutine(EndGame(false));
-        }
     }
 
     //public ConnectionManager GetConnectionManager()
@@ -70,10 +60,42 @@ public class GameManager : MonoBehaviour
 
     void InitializePlayers()
     {
+        // Gets the number of connected controllers
         int playersConnected = XCI.GetNumPluggedCtrlrs();
+
+        // Loops through the connected controllers and adds the player to the game
         for (int i = 0; i < playersConnected; i++)
         {
-            players[i].GetComponent<PlayerController>().JoinGame();
+            // Instantiates player object
+            GameObject playerObj = Instantiate(playerPrefab, new Vector3(1, 0, 5), Quaternion.identity);
+            // Creates reference to the PlayerController component on the object
+            PlayerController playerCont = playerObj.GetComponent<PlayerController>();
+
+            // Finds player number
+            int playerNumber = i + 1;
+            string hudTag = ("P" + playerNumber + "HUD");
+            Debug.Log(hudTag);
+
+            // Finds the HUD for the corresponding player number
+            GameObject hud = GameObject.FindGameObjectWithTag(hudTag);
+
+            // Assigns player number and HUD to player
+            playerCont.InitializePlayer(hud, (XboxController)playerNumber);
+
+            // Adds player to list of players
+            players.Add(playerObj);
+
+            // Adds 50 to the maximum ritual requisite.
+            maxRitual += 50;
+        }
+
+        if (playersConnected < 4)
+        {
+            for (int i = 4; i > playersConnected; i--)
+            {
+                Debug.Log("P" + i + "HUD" + " disabled");
+                GameObject.FindGameObjectWithTag(("P" + i + "HUD")).SetActive(false);
+            }
         }
     }
 
@@ -90,24 +112,29 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void UpdatePlayerCount()
+    public bool CheckForDownedPlayers()
     {
-        maxRitual = 50 * XCI.GetNumPluggedCtrlrs();
-        if (maxRitual > 200)
+        foreach (var player in players)
         {
-            maxRitual = 200;
+            if (player.GetComponent<PlayerController>().isDown)
+            {
+                //Debug.Log("Played downed!");
+                return true;
+            }
         }
-        else if (maxRitual < 100)
-        {
-            maxRitual = 100;
-        }
-        progressBar.maxValue = maxRitual;
-    }
 
+        //Debug.Log("No players downed");
+        return false;
+    }
+    
     public void IncrementProgress(int a_amount = 1)
     {
+        if (progressBar)
+        {
+            progressBar.value = ritualProgress;
+        }
+
         ritualProgress += a_amount;
-        progressBar.value = ritualProgress;
 
         if (checkpoints.Length > 0)
         {
@@ -158,21 +185,8 @@ public class GameManager : MonoBehaviour
         if (ritualProgress < 0)
             ritualProgress = 0;
 
-        progressBar.value = ritualProgress;
-    }
-
-    public void PauseGame(bool a_pause)
-    {
-        if (a_pause)
-        {
-            //Time.timeScale = 0.25f;
-            pauseCanvas.SetActive(true);
-        }
-        else
-        {
-            //Time.timeScale = 1;
-            pauseCanvas.SetActive(false);
-        }
+        if (progressBar)
+            progressBar.value = ritualProgress;
     }
 
     void ToggleProgressObjects(GameObject[] a_objects, Color a_color)

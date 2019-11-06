@@ -8,6 +8,8 @@ public class YokaiSpawner : MonoBehaviour
     [SerializeField] GameObject[] spawnPositions;
     [SerializeField] int numberOfYokai;
     [SerializeField] float spawnDelay;
+    [SerializeField] float yureiChance;
+    [SerializeField] float laternChance;
     float currentTime;
 
     // Start is called before the first frame update

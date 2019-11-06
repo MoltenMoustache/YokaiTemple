@@ -1,71 +1,106 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    // Health
-    [SerializeField] int maxHealth;
-    int currentHealth;
+    // Pathfinding
+    protected GameObject targetPlayer;
+    protected NavMeshAgent navMeshAgent;
 
-    // Attack
-    [SerializeField] int attackDamage;
 
-    Vector3 targetPos;
-    GameObject[] players;
-    GameObject targetPlayer;
-    [SerializeField] float moveSpeed;
+    // Attacking
+    [Header("Attacking")]
+    protected bool canAttack = true;
+    public int damage;
+    [SerializeField] protected float attackCooldown;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");   
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        GetClosestPlayer();
-        FollowPlayer();
-    }
-    
-    void GetClosestPlayer()
+    GameObject GetTarget()
     {
         float distance = Mathf.Infinity;
+        GameObject closestTarget = null;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
         foreach (GameObject player in players)
         {
-            float playerDistance = Vector3.Distance(transform.position, player.transform.position);
-            if(playerDistance < distance)
+            if (!player.GetComponent<PlayerController>().isDown)
             {
-                targetPlayer = player;
-                distance = playerDistance;
+                float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+
+                if (playerDistance < distance)
+                {
+                    closestTarget = player;
+                    distance = playerDistance;
+                }
             }
-
         }
 
-        targetPos = targetPlayer.transform.position;
+        return closestTarget;
     }
 
-    void FollowPlayer()
+    void LookAtTarget()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        //Transform targetTransform = null;
+        //targetTransform.position = new Vector3(targetPlayer.transform.position.x, 0, targetPlayer.transform.position.z);
+        transform.LookAt(targetPlayer.transform);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        if(collision.gameObject.tag == "Player")
+        targetPlayer = GetTarget();
+
+        if (targetPlayer)
         {
-            collision.gameObject.GetComponent<PlayerController>().TakeDamage(attackDamage);
-            Destroy(gameObject);
+            LookAtTarget();
+            navMeshAgent.SetDestination(targetPlayer.transform.position);
+            AttackCheck();
         }
+        else
+            Debug.Log("All players downed or not in game");
     }
 
-    public void TakeDamage(int a_dmg = 1)
+    void AttackCheck()
     {
-        currentHealth -= a_dmg;
-        if(currentHealth <= 0)
+        if (canAttack)
         {
-            Destroy(gameObject);
+            // Check if we've reached the destination
+            if (!navMeshAgent.pathPending)
+            {
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+                {
+                    if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        StartCoroutine(Attack());
+                    }
+                }
+            }
         }
+    }
+    protected virtual IEnumerator Attack()
+    {
+        // Disable attack ability for attack cooldown
+        canAttack = false;
+
+        // Gets the player's PlayerController
+        PlayerController playerController = targetPlayer.GetComponent<PlayerController>();
+
+        // Attack player
+        playerController.TakeDamage(damage);
+
+        // Goes on cooldown for 'attackCooldown' seconds and then re-enables attacking
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
+    public void TakeDamage(PlayerController a_attacker)
+    {
+        a_attacker.attackCone.enemiesInRange.Remove(this);
+        Destroy(gameObject);
     }
 }

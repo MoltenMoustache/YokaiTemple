@@ -31,7 +31,7 @@ public class RitualSite : MonoBehaviour
     bool isLocked;
     [SerializeField] TextMeshProUGUI lockedText;
 
-    List<Enemy> enemiesInRange = new List<Enemy>();
+    List<EnemyAI> enemiesInRange = new List<EnemyAI>();
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class RitualSite : MonoBehaviour
     {
         if (enemiesInRange.Count > 0)
         {
-            List<Enemy> nullEnemies = new List<Enemy>();
+            List<EnemyAI> nullEnemies = new List<EnemyAI>();
             foreach (var enemy in enemiesInRange)
             {
                 if (enemy == null)
@@ -137,7 +137,7 @@ public class RitualSite : MonoBehaviour
         }
         else if (other.tag == "Enemy")
         {
-            enemiesInRange.Add(other.GetComponent<Enemy>());
+            enemiesInRange.Add(other.GetComponent<EnemyAI>());
             LockRitual();
         }
     }
@@ -152,7 +152,7 @@ public class RitualSite : MonoBehaviour
         }
         else if (other.tag == "Enemy")
         {
-            enemiesInRange.Remove(other.GetComponent<Enemy>());
+            enemiesInRange.Remove(other.GetComponent<EnemyAI>());
             if (enemiesInRange.Count == 0 && !GameManager.instance.CheckForDownedPlayers())
             {
                 UnlockRitual();

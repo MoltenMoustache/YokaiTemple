@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     // Combat Variables
     [Header("Attacking")]
     public float hitSpeed;
-    AttackCone attackCone;
+    public AttackCone attackCone;
     [SerializeField] float attackDelay;
     public bool canAttack;
 
@@ -547,31 +547,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Enemy a_attacker, int a_dmg = 1)
-    {
-        if (!isGodMode)
-        {
-            currentHealth -= a_dmg;
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
-                DownPlayer();
-                a_attacker.ClearTarget();
-            }
-
-            foreach (GameObject icon in healthIcons)
-            {
-                icon.SetActive(false);
-            }
-
-            for (int i = 0; i < currentHealth; i++)
-            {
-                healthIcons[i].SetActive(true);
-            }
-            StartCoroutine(FlashGodmode());
-        }
-    }
-
     IEnumerator FlashGodmode()
     {
         isGodMode = true;
@@ -602,7 +577,7 @@ public class PlayerController : MonoBehaviour
     void CheckForNullEnemies()
     {
         // 
-        List<Enemy> nullEnemies = new List<Enemy>();
+        List<EnemyAI> nullEnemies = new List<EnemyAI>();
 
         // Iterates through all enemies to check for null references...
         foreach (var enemy in attackCone.enemiesInRange)
@@ -637,12 +612,12 @@ public class PlayerController : MonoBehaviour
         if (attackCone.enemiesInRange.Count > 0)
         {
             // Set target enemy and look at enemy
-            Enemy targetEnemy = attackCone.enemiesInRange[0];
+            EnemyAI targetEnemy = attackCone.enemiesInRange[0];
             transform.LookAt(targetEnemy.transform);
 
             // Remove enemy from list and kill enemy
             attackCone.enemiesInRange.Remove(targetEnemy);
-            targetEnemy.TakeDamage(10);
+            targetEnemy.TakeDamage(this);
 
             //transform.position = transform.position + transform.forward;
 

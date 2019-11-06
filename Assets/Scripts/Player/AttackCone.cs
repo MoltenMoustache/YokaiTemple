@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackCone : MonoBehaviour
 {
     PlayerController parentPlayer;
-    public List<Enemy> enemiesInRange = new List<Enemy>();
+    public List<EnemyAI> enemiesInRange = new List<EnemyAI>();
     public List<GameObject> projectilesInRange = new List<GameObject>();
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class AttackCone : MonoBehaviour
         if (other.tag == "Enemy")
         {
             Debug.Log("Enemy entered trigger.");
-            enemiesInRange.Add(other.GetComponent<Enemy>());
+            enemiesInRange.Add(other.GetComponent<EnemyAI>());
         }
 
         if (other.tag == "Projectile")
@@ -43,7 +43,7 @@ public class AttackCone : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            Enemy enemyLeaving = other.GetComponent<Enemy>();
+            EnemyAI enemyLeaving = other.GetComponent<EnemyAI>();
             if (enemiesInRange.Contains(enemyLeaving))
             {
                 enemiesInRange.Remove(enemyLeaving);

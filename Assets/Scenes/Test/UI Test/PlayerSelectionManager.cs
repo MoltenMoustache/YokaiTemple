@@ -8,8 +8,10 @@ public class PlayerSelectionManager : MonoBehaviour
 {
     public GameObject[] Player;
     public PlayerSelectionBehaviour[] PBehaviour;
+    public GameObject[] ColourPicker;
     public int ReadyPlayers = 0;
     public TextMeshProUGUI CountDownText;
+    public TextMeshProUGUI[] PlayerNameText;
     public int CountDownTimer = 5;
     float timer = 10.0f;
     // Start is called before the first frame update
@@ -28,7 +30,7 @@ public class PlayerSelectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ReadyPlayers != XCI.GetNumPluggedCtrlrs())
+        if (ReadyPlayers != XCI.GetNumPluggedCtrlrs() || XCI.GetNumPluggedCtrlrs() == 0)
         {
             timer = 5.0f;
             CountDownText.gameObject.SetActive(false);
@@ -41,9 +43,21 @@ public class PlayerSelectionManager : MonoBehaviour
         }
 
         Player[3].SetActive(XCI.GetNumPluggedCtrlrs() > 3);
+        PlayerNameText[3].text = (XCI.GetNumPluggedCtrlrs() > 3 ? (!PBehaviour[3].PlayerReady ? "Player Four" : "Ready") : "Connect Controller");
+        ColourPicker[3].SetActive(XCI.GetNumPluggedCtrlrs() > 3 && !PBehaviour[3].PlayerReady);
+
         Player[2].SetActive(XCI.GetNumPluggedCtrlrs() > 2);
+        PlayerNameText[2].text = (XCI.GetNumPluggedCtrlrs() > 2 ? (!PBehaviour[2].PlayerReady ? "Player Three" : "Ready") : "Connect Controller");
+        ColourPicker[2].SetActive(XCI.GetNumPluggedCtrlrs() > 2 && !PBehaviour[2].PlayerReady);
+
         Player[1].SetActive(XCI.GetNumPluggedCtrlrs() > 1);
+        PlayerNameText[1].text = (XCI.GetNumPluggedCtrlrs() > 1 ? (!PBehaviour[1].PlayerReady ? "Player Two" : "Ready") : "Connect Controller");
+        ColourPicker[1].SetActive(XCI.GetNumPluggedCtrlrs() > 1 && !PBehaviour[1].PlayerReady);
+
+
         Player[0].SetActive(XCI.GetNumPluggedCtrlrs() > 0);
+        PlayerNameText[0].text = (XCI.GetNumPluggedCtrlrs() > 0 ? (!PBehaviour[0].PlayerReady ? "Player One" : "Ready" ) : "Connect Controller");
+        ColourPicker[0].SetActive(XCI.GetNumPluggedCtrlrs() > 0 && !PBehaviour[0].PlayerReady);
 
         ReadyPlayers = 0;
 
@@ -52,14 +66,16 @@ public class PlayerSelectionManager : MonoBehaviour
             ReadyPlayers += (PBehaviour[i].PlayerReady ? 1 : 0);
         }
 
-        if (ReadyPlayers == XCI.GetNumPluggedCtrlrs())
+        if (ReadyPlayers == XCI.GetNumPluggedCtrlrs() && XCI.GetNumPluggedCtrlrs() > 0)
         {
             CountDownTimer = System.Convert.ToInt32(timer);
             CountDownText.text = System.Convert.ToString(CountDownTimer);
-            if (CountDownTimer < 0)
+            if (CountDownTimer < 0 )
             {
-                Debug.Log("Load Game Scene");
+                Debug.Log("Load Game Scene and pass player objects");
             }
         }
+
     }
+
 }

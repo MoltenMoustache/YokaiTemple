@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour
         {
             if (attackCooldown == 0)
             {
-                player.TakeDamage(this, damage);
+                //player.TakeDamage(this, damage);
                 attackCooldown++;
             }
 

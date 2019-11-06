@@ -65,7 +65,10 @@
     <Compile Include="Assets\Scenes\Test\UI Test\PlayerSelectionManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAI.cs" />
+    <Compile Include="Assets\Scripts\Enemy\LanternProjectile.cs" />
+    <Compile Include="Assets\Scripts\Enemy\PounceAI.cs" />
     <Compile Include="Assets\Scripts\Enemy\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Enemy\RangedAI.cs" />
     <Compile Include="Assets\Scripts\Enemy\TestDummy.cs" />
     <Compile Include="Assets\Scripts\Enemy\TestTurret.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

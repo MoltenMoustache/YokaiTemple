@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RangedAI : EnemyAI
 {
-    [SerializeField] GameObject projectile;
+    [Header("Projectile")]
+    public GameObject projectile;
     [SerializeField] float projectileForce;
     GameObject projectileSpawn;
 

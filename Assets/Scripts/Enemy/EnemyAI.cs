@@ -6,19 +6,22 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     // Pathfinding
+    [Header("Pathfinding")]
+    public float speed;
+    [SerializeField] protected float stoppingDistance;
     protected GameObject targetPlayer;
     protected NavMeshAgent navMeshAgent;
-
+    protected bool isTracking = true;
 
     // Attacking
     [Header("Attacking")]
-    protected bool canAttack = true;
     public int damage;
+    protected bool canAttack = true;
     [SerializeField] protected float attackCooldown;
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        InitializeEnemy();
     }
 
     GameObject GetTarget()
@@ -41,7 +44,10 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        return closestTarget;
+        if (isTracking)
+            return closestTarget;
+        else
+            return null;
     }
 
     void LookAtTarget()
@@ -51,7 +57,7 @@ public class EnemyAI : MonoBehaviour
         transform.LookAt(targetPlayer.transform);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         targetPlayer = GetTarget();
 
@@ -61,8 +67,8 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent.SetDestination(targetPlayer.transform.position);
             AttackCheck();
         }
-        else
-            Debug.Log("All players downed or not in game");
+        //else
+            //Debug.Log("All players downed or not in game");
     }
 
     void AttackCheck()
@@ -102,5 +108,21 @@ public class EnemyAI : MonoBehaviour
     {
         a_attacker.attackCone.enemiesInRange.Remove(this);
         Destroy(gameObject);
+    }
+
+    void InitializeEnemy()
+    {
+        // Adds and configures Rigidbody to enemy object
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.mass = 99999999;
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+        // Adds and configures NavMeshAgent to enemy object
+        navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+        navMeshAgent.speed = speed;
+        navMeshAgent.stoppingDistance = stoppingDistance;
+
+        // Sets tag
+        tag = "Enemy";
     }
 }

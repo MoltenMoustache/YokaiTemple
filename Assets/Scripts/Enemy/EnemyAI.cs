@@ -68,7 +68,7 @@ public class EnemyAI : MonoBehaviour
             AttackCheck();
         }
         //else
-            //Debug.Log("All players downed or not in game");
+        //Debug.Log("All players downed or not in game");
     }
 
     void AttackCheck()
@@ -113,14 +113,20 @@ public class EnemyAI : MonoBehaviour
     void InitializeEnemy()
     {
         // Adds and configures Rigidbody to enemy object
-        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-        rb.mass = 99999999;
-        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        if (!GetComponent<Rigidbody>())
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.mass = 99999999;
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
 
         // Adds and configures NavMeshAgent to enemy object
-        navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
-        navMeshAgent.speed = speed;
-        navMeshAgent.stoppingDistance = stoppingDistance;
+        if (!GetComponent<NavMeshAgent>())
+        {
+            navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+            navMeshAgent.speed = speed;
+            navMeshAgent.stoppingDistance = stoppingDistance;
+        }
 
         // Sets tag
         tag = "Enemy";

@@ -127,6 +127,10 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent.speed = speed;
             navMeshAgent.stoppingDistance = stoppingDistance;
         }
+        else
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
 
         // Sets tag
         tag = "Enemy";

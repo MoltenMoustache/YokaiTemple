@@ -456,7 +456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5640893400326520158}
   m_Layer: 5
-  m_Name: PlayerOneHUD
+  m_Name: PlayerHUD
   m_TagString: P1HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6198,6 +6198,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ritual
       objectReference: {fileID: 0}
+    - target: {fileID: 9018120789151195686, guid: 87be916e8f60da047afcd80e3a60cc04,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9018120789151195705, guid: 87be916e8f60da047afcd80e3a60cc04,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -58,6 +58,13 @@ public class GameManager : MonoBehaviour
         // Gets the number of connected controllers
         int playersConnected = XCI.GetNumPluggedCtrlrs();
 
+        ////DEBUG
+        //if (playersConnected == 0)
+        //{
+        //    playersConnected = 4;
+        //}
+
+        Debug.Log("Players Connected: " + playersConnected);
         // Loops through the connected controllers and adds the player to the game
         for (int i = 0; i < playersConnected; i++)
         {
@@ -99,7 +106,7 @@ public class GameManager : MonoBehaviour
         // Checks if all players are downed, if so game is over
         if (CheckAllPlayersDowned())
             return true;
-        
+
         // Checks if ritual is complete, if so game is over
         if (ritualProgress >= maxRitual)
         {

@@ -26,10 +26,8 @@ public class AttackCone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger entered.");
         if (other.tag == "Enemy")
         {
-            Debug.Log("Enemy entered trigger.");
             enemiesInRange.Add(other.GetComponent<EnemyAI>());
         }
 

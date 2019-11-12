@@ -1,0 +1,215 @@
+fileFormatVersion: 2
+guid: 0589db896308eea41939ce5fbbfb5ec8
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Exterior_001_Mesh_Lantern_001
+    100002: Interior_001_Mesh_Candle_001
+    100004: Interior_001_Mesh_CircularStreamers_001
+    100006: Interior_001_Mesh_Cushion_001
+    100008: Interior_001_Mesh_Drums_001
+    100010: Interior_001_Mesh_Gong_001
+    100012: Interior_001_Mesh_HangingScroll_001
+    100014: Interior_001_Mesh_Incense_001
+    100016: Interior_001_Mesh_KanjiBoard_001
+    100018: Interior_001_Mesh_Lantern_001
+    100020: Interior_001_Mesh_Melon_001
+    100022: Interior_001_Mesh_OfferingBowl_001
+    100024: Interior_001_Mesh_OfferingTable_001
+    100026: Interior_001_Mesh_Pillar_001
+    100028: Interior_001_Mesh_Radish_001
+    100030: Interior_001_Mesh_RitualScroll_001
+    100032: Interior_001_Mesh_RitualTable_001
+    100034: Interior_001_Mesh_Sake_001
+    100036: Interior_001_Mesh_ScrollBox_001
+    100038: Interior_001_Mesh_ShojiDoor_001
+    100040: Interior_001_Mesh_ShojiWall_001
+    100042: Interior_001_Mesh_Streamers_001
+    100044: Interior_001_Mesh_TatamiMats_001
+    100046: Interior_002_Mesh_Lantern_001
+    100048: //RootNode
+    400000: Exterior_001_Mesh_Lantern_001
+    400002: Interior_001_Mesh_Candle_001
+    400004: Interior_001_Mesh_CircularStreamers_001
+    400006: Interior_001_Mesh_Cushion_001
+    400008: Interior_001_Mesh_Drums_001
+    400010: Interior_001_Mesh_Gong_001
+    400012: Interior_001_Mesh_HangingScroll_001
+    400014: Interior_001_Mesh_Incense_001
+    400016: Interior_001_Mesh_KanjiBoard_001
+    400018: Interior_001_Mesh_Lantern_001
+    400020: Interior_001_Mesh_Melon_001
+    400022: Interior_001_Mesh_OfferingBowl_001
+    400024: Interior_001_Mesh_OfferingTable_001
+    400026: Interior_001_Mesh_Pillar_001
+    400028: Interior_001_Mesh_Radish_001
+    400030: Interior_001_Mesh_RitualScroll_001
+    400032: Interior_001_Mesh_RitualTable_001
+    400034: Interior_001_Mesh_Sake_001
+    400036: Interior_001_Mesh_ScrollBox_001
+    400038: Interior_001_Mesh_ShojiDoor_001
+    400040: Interior_001_Mesh_ShojiWall_001
+    400042: Interior_001_Mesh_Streamers_001
+    400044: Interior_001_Mesh_TatamiMats_001
+    400046: Interior_002_Mesh_Lantern_001
+    400048: //RootNode
+    2100000: StingrayPBS1
+    2100002: Wall_N_Floor
+    2300000: Exterior_001_Mesh_Lantern_001
+    2300002: Interior_001_Mesh_Candle_001
+    2300004: Interior_001_Mesh_CircularStreamers_001
+    2300006: Interior_001_Mesh_Cushion_001
+    2300008: Interior_001_Mesh_Drums_001
+    2300010: Interior_001_Mesh_Gong_001
+    2300012: Interior_001_Mesh_HangingScroll_001
+    2300014: Interior_001_Mesh_Incense_001
+    2300016: Interior_001_Mesh_KanjiBoard_001
+    2300018: Interior_001_Mesh_Lantern_001
+    2300020: Interior_001_Mesh_Melon_001
+    2300022: Interior_001_Mesh_OfferingBowl_001
+    2300024: Interior_001_Mesh_OfferingTable_001
+    2300026: Interior_001_Mesh_Pillar_001
+    2300028: Interior_001_Mesh_Radish_001
+    2300030: Interior_001_Mesh_RitualScroll_001
+    2300032: Interior_001_Mesh_RitualTable_001
+    2300034: Interior_001_Mesh_Sake_001
+    2300036: Interior_001_Mesh_ScrollBox_001
+    2300038: Interior_001_Mesh_ShojiDoor_001
+    2300040: Interior_001_Mesh_ShojiWall_001
+    2300042: Interior_001_Mesh_Streamers_001
+    2300044: Interior_001_Mesh_TatamiMats_001
+    2300046: Interior_002_Mesh_Lantern_001
+    3300000: Exterior_001_Mesh_Lantern_001
+    3300002: Interior_001_Mesh_Candle_001
+    3300004: Interior_001_Mesh_CircularStreamers_001
+    3300006: Interior_001_Mesh_Cushion_001
+    3300008: Interior_001_Mesh_Drums_001
+    3300010: Interior_001_Mesh_Gong_001
+    3300012: Interior_001_Mesh_HangingScroll_001
+    3300014: Interior_001_Mesh_Incense_001
+    3300016: Interior_001_Mesh_KanjiBoard_001
+    3300018: Interior_001_Mesh_Lantern_001
+    3300020: Interior_001_Mesh_Melon_001
+    3300022: Interior_001_Mesh_OfferingBowl_001
+    3300024: Interior_001_Mesh_OfferingTable_001
+    3300026: Interior_001_Mesh_Pillar_001
+    3300028: Interior_001_Mesh_Radish_001
+    3300030: Interior_001_Mesh_RitualScroll_001
+    3300032: Interior_001_Mesh_RitualTable_001
+    3300034: Interior_001_Mesh_Sake_001
+    3300036: Interior_001_Mesh_ScrollBox_001
+    3300038: Interior_001_Mesh_ShojiDoor_001
+    3300040: Interior_001_Mesh_ShojiWall_001
+    3300042: Interior_001_Mesh_Streamers_001
+    3300044: Interior_001_Mesh_TatamiMats_001
+    3300046: Interior_002_Mesh_Lantern_001
+    4300000: Interior_001_Mesh_OfferingTable_001
+    4300002: Interior_001_Mesh_RitualTable_001
+    4300004: Interior_001_Mesh_Gong_001
+    4300006: Interior_001_Mesh_KanjiBoard_001
+    4300008: Interior_001_Mesh_Candle_001
+    4300010: Interior_001_Mesh_Drums_001
+    4300012: Interior_001_Mesh_HangingScroll_001
+    4300014: Interior_001_Mesh_ScrollBox_001
+    4300016: Interior_001_Mesh_Cushion_001
+    4300018: Exterior_001_Mesh_Lantern_001
+    4300020: Interior_001_Mesh_Streamers_001
+    4300022: Interior_001_Mesh_Lantern_001
+    4300024: Interior_002_Mesh_Lantern_001
+    4300026: Interior_001_Mesh_Incense_001
+    4300028: Interior_001_Mesh_Sake_001
+    4300030: Interior_001_Mesh_Radish_001
+    4300032: Interior_001_Mesh_Melon_001
+    4300034: Interior_001_Mesh_RitualScroll_001
+    4300036: Interior_001_Mesh_OfferingBowl_001
+    4300038: Interior_001_Mesh_CircularStreamers_001
+    4300040: Interior_001_Mesh_ShojiWall_001
+    4300042: Interior_001_Mesh_ShojiDoor_001
+    4300044: Interior_001_Mesh_TatamiMats_001
+    4300046: Interior_001_Mesh_Pillar_001
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

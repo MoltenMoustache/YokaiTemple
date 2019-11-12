@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XboxCtrlrInput;
 using TMPro;
 
@@ -72,7 +73,7 @@ public class PlayerSelectionManager : MonoBehaviour
             CountDownText.text = System.Convert.ToString(CountDownTimer);
             if (CountDownTimer < 0 )
             {
-                Debug.Log("Load Game Scene and pass player objects");
+                SceneManager.LoadScene(2);
             }
         }
 

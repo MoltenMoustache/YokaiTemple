@@ -25,38 +25,33 @@ public class GameManager : MonoBehaviour
     }
 
     // References
-    [SerializeField] TextMeshProUGUI ritualText;
-
+    [Header("Progression")]
     public int ritualProgress = 0;
     public int maxRitual;
-    [SerializeField] Slider progressBar;
     [SerializeField] Checkpoint[] checkpoints;
     GameObject[] checkpointObjects;
     List<GameObject> players = new List<GameObject>();
     GameObject[] currentPlayers;
     int currentPlayerCount;
-    [SerializeField] GameObject gameoverCanvas;
-    [SerializeField] GameObject pauseCanvas;
-    [SerializeField] GameObject playerPrefab;
+
+    [Header("References")]
+    public GameObject playerPrefab;
+    [SerializeField] GameObject gameCanvas;
+    [SerializeField] GameObject endingCanvas;
+    bool gameWon = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (progressBar)
-            progressBar.maxValue = maxRitual;
         InitializePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (CheckGameOver())
+            StartCoroutine(EndGame(gameWon));
     }
-
-    //public ConnectionManager GetConnectionManager()
-    //{
-    //    return connectionManager;
-    //}
 
     void InitializePlayers()
     {
@@ -101,6 +96,22 @@ public class GameManager : MonoBehaviour
 
     bool CheckGameOver()
     {
+        // Checks if all players are downed, if so game is over
+        if (CheckAllPlayersDowned())
+            return true;
+        
+        // Checks if ritual is complete, if so game is over
+        if (ritualProgress >= maxRitual)
+        {
+            gameWon = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    bool CheckAllPlayersDowned()
+    {
         foreach (var player in players)
         {
             if (!player.GetComponent<PlayerController>().isDown)
@@ -126,14 +137,9 @@ public class GameManager : MonoBehaviour
         //Debug.Log("No players downed");
         return false;
     }
-    
+
     public void IncrementProgress(int a_amount = 1)
     {
-        if (progressBar)
-        {
-            progressBar.value = ritualProgress;
-        }
-
         ritualProgress += a_amount;
 
         if (checkpoints.Length > 0)
@@ -170,12 +176,14 @@ public class GameManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1.5f);
-            SceneManager.LoadSceneAsync(0);
+            endingCanvas.SetActive(true);
+            gameCanvas.SetActive(false);
         }
         else
         {
             yield return new WaitForSeconds(1.5f);
-            SceneManager.LoadSceneAsync(0);
+            endingCanvas.SetActive(true);
+            gameCanvas.SetActive(false);
         }
     }
 
@@ -184,9 +192,6 @@ public class GameManager : MonoBehaviour
         ritualProgress -= a_amount;
         if (ritualProgress < 0)
             ritualProgress = 0;
-
-        if (progressBar)
-            progressBar.value = ritualProgress;
     }
 
     void ToggleProgressObjects(GameObject[] a_objects, Color a_color)

@@ -23,16 +23,16 @@ public class PlayerSelectionBehaviour : MonoBehaviour
     {
         SubColourIndex = new int[4];
         int index = 0;
-        colors = new Color[14];
+        colors = new Color[5];
 
-        for (double i = 0; i < 3.6; i += 0.07f)
+        for (double i = 0; i < 3.6; i += 0.2f)
         {
             Color c = Color.HSVToRGB((float)i, 1, 1);
-            if (index == 14) break;
+            if (index == 5) break;
             colors[index] = new Color(c.r,c.g,c.b);
             index++;
         }
-        ColourIndex = 5;
+        ColourIndex = 2;
 
         UpdateIndex();
 

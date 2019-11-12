@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3bca0051024494185f52b92aab2ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yokaiPrefab: {fileID: 6369059340027400315, guid: ecad2b670cd0a634aae3ac18d638737b,
+  yokaiPrefab: {fileID: 6313776685365413947, guid: 43cabbdda0003e943a88269798915a1d,
     type: 3}
   spawnPositions:
   - {fileID: 1789464991}
@@ -2981,16 +2981,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6313776685365413946, guid: 43cabbdda0003e943a88269798915a1d,
-        type: 3}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313776685365413946, guid: 43cabbdda0003e943a88269798915a1d,
-        type: 3}
-      propertyPath: stoppingDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6313776685365413947, guid: 43cabbdda0003e943a88269798915a1d,
         type: 3}
       propertyPath: m_Name
@@ -2999,6 +2989,16 @@ PrefabInstance:
     - target: {fileID: 6313776685365413947, guid: 43cabbdda0003e943a88269798915a1d,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313776685365413946, guid: 43cabbdda0003e943a88269798915a1d,
+        type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313776685365413946, guid: 43cabbdda0003e943a88269798915a1d,
+        type: 3}
+      propertyPath: stoppingDistance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6313776685365777435, guid: 43cabbdda0003e943a88269798915a1d,
@@ -4842,6 +4842,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1577034782}
     m_Modifications:
+    - target: {fileID: 3262398364699567561, guid: 78c5ae1fae4a84f44bb23acbc731727c,
+        type: 3}
+      propertyPath: m_Name
+      value: Ritual Object
+      objectReference: {fileID: 0}
     - target: {fileID: 2703461558109039769, guid: 78c5ae1fae4a84f44bb23acbc731727c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4897,11 +4902,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3262398364699567561, guid: 78c5ae1fae4a84f44bb23acbc731727c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ritual Object
-      objectReference: {fileID: 0}
     - target: {fileID: 3759003313362294585, guid: 78c5ae1fae4a84f44bb23acbc731727c,
         type: 3}
       propertyPath: buttonPrompt
@@ -4921,6 +4921,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1722401208148997261, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
     - target: {fileID: 1722401208148997259, guid: 40def4e25a23a194e8ee56255e3aca6c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4986,11 +4991,6 @@ PrefabInstance:
       propertyPath: endingCanvas
       value: 
       objectReference: {fileID: 1932213087}
-    - target: {fileID: 1722401208148997261, guid: 40def4e25a23a194e8ee56255e3aca6c,
-        type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40def4e25a23a194e8ee56255e3aca6c, type: 3}
 --- !u!4 &2703461558109039769 stripped
@@ -5159,6 +5159,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 712809631, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 712809631, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9186162641453929790, guid: 59fed44331247a846b2385dfc9c421d1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5303,14 +5311,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 712809631, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 712809631, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}

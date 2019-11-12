@@ -192,7 +192,6 @@ public class PlayerController : MonoBehaviour
                         XCI.GetAxis(XboxAxis.LeftStickX, player) < -0.4 || XCI.GetAxis(XboxAxis.LeftStickY, player) < -0.4)
                 {
                     StopCasting(true);
-                    GetComponent<Rigidbody>().isKinematic = false;
                 }
             }
             
@@ -256,10 +255,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ritualSite = null;
-            ToggleInteractPrompt(false);
-        }
+            if (isCasting)
+            {
+                StopCasting(false);
+            }
 
+            ritualSite = null;
+            //ToggleInteractPrompt(false);
+        }
     }
 
     void ToggleInteractPrompt(bool a_active)
@@ -278,6 +281,7 @@ public class PlayerController : MonoBehaviour
     {
         ritualSite.StopRitual();
         isCasting = false;
+        GetComponent<Rigidbody>().isKinematic = false;
         ToggleInteractPrompt(a_togglePrompt);
     }
 

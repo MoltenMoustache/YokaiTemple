@@ -611,6 +611,7 @@ public class PlayerController : MonoBehaviour
         // The player can't attack until...
         canAttack = false;
 
+        animator.SetBool("isAttacking", true);
 
         // Check if enemies are within the cone...
         if (attackCone.enemiesInRange.Count > 0)
@@ -645,6 +646,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        animator.SetBool("isAttacking", false);
 
         yield return new WaitForSeconds(0.25f);
         canAttack = true;

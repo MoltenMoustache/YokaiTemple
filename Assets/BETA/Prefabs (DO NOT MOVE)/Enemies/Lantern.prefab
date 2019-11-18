@@ -436,7 +436,7 @@ MonoBehaviour:
   attackCooldown: 3
   projectile: {fileID: 3677688869269054125, guid: 0808ea65436015e4a80b3922b97d2458,
     type: 3}
-  projectileForce: 5
+  projectileForce: 3
 --- !u!1 &6560565079355294108
 GameObject:
   m_ObjectHideFlags: 0

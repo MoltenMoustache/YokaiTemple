@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    bool CheckAllPlayersDowned()
+    public bool CheckAllPlayersDowned()
     {
         foreach (var player in players)
         {

@@ -12,24 +12,29 @@ public class YokaiSpawner : MonoBehaviour
     [SerializeField] float laternChance;
     float currentTime;
 
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.instance;
         currentTime = 5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentTime -= Time.deltaTime;
-        if(currentTime <= 0)
+        if (!gameManager.CheckAllPlayersDowned())
         {
-            int spawnNumber = Random.Range(1, numberOfYokai);
-            for (int i = 0; i < spawnNumber; i++)
+            currentTime -= Time.deltaTime;
+            if (currentTime <= 0)
             {
-                Instantiate(yokaiPrefab, spawnPositions[Random.Range(0, spawnPositions.Length)].transform.position, transform.rotation);
+                int spawnNumber = Random.Range(1, numberOfYokai);
+                for (int i = 0; i < spawnNumber; i++)
+                {
+                    Instantiate(yokaiPrefab, spawnPositions[Random.Range(0, spawnPositions.Length)].transform.position, transform.rotation);
+                }
+                currentTime = spawnDelay;
             }
-            currentTime = spawnDelay;
         }
     }
 }

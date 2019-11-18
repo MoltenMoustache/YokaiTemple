@@ -5516,7 +5516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3bca0051024494185f52b92aab2ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yokaiPrefab: {fileID: 3644810138606816497, guid: efbc58d5a29357e48846075c8d623e98,
+  yokaiPrefab: {fileID: 6126367610909596800, guid: f4db9f840fc73ab43a892b6e831bca42,
     type: 3}
   spawnPositions:
   - {fileID: 1870431707}
@@ -12088,6 +12088,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 256471724894083177, guid: 59fed44331247a846b2385dfc9c421d1,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 256471724894083177, guid: 59fed44331247a846b2385dfc9c421d1,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 712809631, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1
@@ -12240,16 +12250,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 256471724894083177, guid: 59fed44331247a846b2385dfc9c421d1,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 256471724894083177, guid: 59fed44331247a846b2385dfc9c421d1,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59fed44331247a846b2385dfc9c421d1, type: 3}

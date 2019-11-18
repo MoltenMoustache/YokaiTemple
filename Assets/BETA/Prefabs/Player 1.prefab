@@ -255,7 +255,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300012, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
+  m_Mesh: {fileID: 4300010, guid: 48a1830d4337ddb45983f3672a7a43b7, type: 3}
   m_Bones:
   - {fileID: 4952973532302448129}
   - {fileID: 4952973532302448141}
@@ -699,7 +699,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4952973532302346837}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 6a1994dbe2f2b3141bd0d81c586928dc, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 48a1830d4337ddb45983f3672a7a43b7, type: 3}
   m_Controller: {fileID: 9100000, guid: 7e9e52d021504b94897def6b68d6fd08, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -951,13 +951,13 @@ Transform:
   m_PrefabInstance: {fileID: 3965219581549664320}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612883552023379536}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0, z: -0.435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5130373085707652717}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!64 &2311873360761581994
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1061,10 +1061,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300006, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+    - target: {fileID: 9500000, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
+      propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 2100000, guid: e060faec44c5d6845bf8b590e5adbeb5, type: 2}
+      objectReference: {fileID: 9100000, guid: 7e9e52d021504b94897def6b68d6fd08, type: 2}
     - target: {fileID: 2300008, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1073,6 +1073,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 2991101c3b3f88a45b5c51fae48b5fe0, type: 2}
+    - target: {fileID: 2300006, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e060faec44c5d6845bf8b590e5adbeb5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0241defddcf88bf4dbfea7360eb7f2b2, type: 3}
 --- !u!4 &1403350905236833821 stripped

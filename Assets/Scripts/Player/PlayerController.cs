@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
         // Ritual
         if (ritualSite != null)
         {
-            // If the player presses X in the ritual and theres no enemies in their attack cone, start casting the ritual.
+            // If the player presses x in the ritual and theres no enemies in their attack cone, start casting the ritual.
             if (XCI.GetButtonDown(XboxButton.X, player) && !isCasting && canAttack)
             {
                 CheckForNullEnemies();

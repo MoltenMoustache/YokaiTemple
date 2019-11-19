@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6feccf64d9b86294289048a05bbe88c0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Impact
+  fontNames:
+  - Impact
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ddfc6541a5e5a7a49b735b748969b8da, type: 3}
+  - {fileID: 12800000, guid: c8b36917ae2fb1d48accbb47f37506b8, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

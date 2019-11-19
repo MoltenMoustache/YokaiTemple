@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 4556242157339768839}
   - component: {fileID: 4556242157339768836}
   m_Layer: 0
-  m_Name: Player Gold
+  m_Name: Player Gold 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4556242157339768837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6df6fcf62b6b77459632b65ce239734, type: 3}
   m_Name: 
@@ -321,10 +321,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4556242157339768834}
     m_Modifications:
-    - target: {fileID: 100000, guid: 258fe5892023edf40bd64ecbad2a3f27, type: 3}
-      propertyPath: m_Name
-      value: Attack_Zone
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 258fe5892023edf40bd64ecbad2a3f27, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0029999912
@@ -372,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 258fe5892023edf40bd64ecbad2a3f27, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.50737
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 258fe5892023edf40bd64ecbad2a3f27, type: 3}
+      propertyPath: m_Name
+      value: Attack_Zone
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 258fe5892023edf40bd64ecbad2a3f27, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -566,18 +566,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_001_RiggedMesh_ShrineMaiden_007
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -622,10 +610,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300006, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 93eb0ce489e8e1443b2f9130e64486ce, type: 2}
     - target: {fileID: 13700000, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -635,6 +619,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 93eb0ce489e8e1443b2f9130e64486ce, type: 2}
     - target: {fileID: 13700002, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 93eb0ce489e8e1443b2f9130e64486ce, type: 2}
+    - target: {fileID: 100000, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300006, guid: d0be205b2291d1648b2d0209f20a1e0c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 93eb0ce489e8e1443b2f9130e64486ce, type: 2}

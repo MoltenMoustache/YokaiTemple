@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     [SerializeField] GameObject gameCanvas;
     [SerializeField] GameObject endingCanvas;
+    [SerializeField] GameObject MainMenuButton;
     bool gameWon = false;
 
     // Start is called before the first frame update
@@ -183,14 +184,16 @@ public class GameManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1.5f);
-            endingCanvas.SetActive(true);
             gameCanvas.SetActive(false);
+            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
+            endingCanvas.SetActive(true);
         }
         else
         {
             yield return new WaitForSeconds(1.5f);
-            endingCanvas.SetActive(true);
             gameCanvas.SetActive(false);
+            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
+            endingCanvas.SetActive(true);
         }
     }
 

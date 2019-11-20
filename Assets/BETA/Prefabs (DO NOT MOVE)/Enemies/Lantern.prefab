@@ -432,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   stoppingDistance: 0
-  damage: 2
+  damage: 1
   attackCooldown: 3
   projectile: {fileID: 3677688869269054125, guid: 0808ea65436015e4a80b3922b97d2458,
     type: 3}

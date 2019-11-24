@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     public int damage;
     protected bool canAttack = true;
     [SerializeField] protected float attackCooldown;
+    protected Animator animator;
 
     private void Start()
     {
@@ -82,11 +83,20 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                     {
+                        StartCoroutine(PlayAttackAnimation());
                         StartCoroutine(Attack());
                     }
                 }
             }
         }
+    }
+
+    protected virtual IEnumerator PlayAttackAnimation()
+    {
+        animator.SetBool("isAttacking", true);
+        AnimationClip clip = animator.runtimeAnimatorController.animationClips[0];
+        yield return new WaitForSeconds(clip.length);
+        animator.SetBool("isAttacking", false);
     }
     protected virtual IEnumerator Attack()
     {
@@ -132,6 +142,7 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
+        animator = GetComponent<Animator>();
         // Sets tag
         tag = "Enemy";
     }

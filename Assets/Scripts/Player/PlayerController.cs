@@ -220,6 +220,7 @@ public class PlayerController : MonoBehaviour
             // If the X button is pressed and the player can attack
             if (XCI.GetButtonDown(XboxButton.X, player))
             {
+                StartCoroutine(PlayAnimation("isAttacking", 0.25f));
                 CheckForNullEnemies();
 
                 // Attack
@@ -391,6 +392,8 @@ public class PlayerController : MonoBehaviour
             // Enable the revive bar object
             reviveBar.gameObject.SetActive(true);
 
+            animator.SetBool("isDeath", true);
+
             // Make the bar follow the player
             Vector3 offset = new Vector3(0f, 30f, 0f);
             reviveBar.transform.position = Camera.main.WorldToScreenPoint(transform.position);
@@ -415,6 +418,9 @@ public class PlayerController : MonoBehaviour
             isDown = false;
             // Disables the trigger volume
             GetComponent<SphereCollider>().enabled = false;
+
+            animator.SetBool("isDeath", false);
+
             // Disable the revive bar object
             reviveBar.gameObject.SetActive(false);
 
@@ -606,12 +612,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator PlayAnimation(string a_animType, float a_animCooldown)
+    {
+        animator.SetBool(a_animType, true);
+        yield return new WaitForSeconds(a_animCooldown);
+        animator.SetBool(a_animType, false);
+    }
+
     IEnumerator Attack()
     {
         // The player can't attack until...
         canAttack = false;
-
-        animator.SetBool("isAttacking", true);
 
         // Check if enemies are within the cone...
         if (attackCone.enemiesInRange.Count > 0)
@@ -646,8 +657,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
-        animator.SetBool("isAttacking", false);
 
         yield return new WaitForSeconds(0.25f);
         canAttack = true;

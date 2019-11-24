@@ -41,10 +41,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject MainMenuButton;
     bool gameWon = false;
 
+    [Header("Player Prefabs")]
+    public GameObject[] playerPrefabs;
+
+    [Header("UI")]
+    public TextMeshProUGUI endScreenText;
+
     // Start is called before the first frame update
     void Start()
     {
         InitializePlayers();
+
+        // Initializes UI
+        endScreenText = endingCanvas.transform.Find("BackGround").transform.Find("End Text").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -58,19 +67,13 @@ public class GameManager : MonoBehaviour
     {
         // Gets the number of connected controllers
         int playersConnected = XCI.GetNumPluggedCtrlrs();
-
-        ////DEBUG
-        //if (playersConnected == 0)
-        //{
-        //    playersConnected = 4;
-        //}
-
+        
         Debug.Log("Players Connected: " + playersConnected);
         // Loops through the connected controllers and adds the player to the game
         for (int i = 0; i < playersConnected; i++)
         {
             // Instantiates player object
-            GameObject playerObj = Instantiate(playerPrefab, new Vector3(1, 0, 5), Quaternion.identity);
+            GameObject playerObj = Instantiate(playerPrefabs[i], new Vector3(1, 0, 5), Quaternion.identity);
             // Creates reference to the PlayerController component on the object
             PlayerController playerCont = playerObj.GetComponent<PlayerController>();
 
@@ -106,12 +109,16 @@ public class GameManager : MonoBehaviour
     {
         // Checks if all players are downed, if so game is over
         if (CheckAllPlayersDowned())
+        {
+            endScreenText.text = "You Lose";
             return true;
+        }
 
         // Checks if ritual is complete, if so game is over
         if (ritualProgress >= maxRitual)
         {
             gameWon = true;
+            endScreenText.text = "You Won!";
             return true;
         }
 

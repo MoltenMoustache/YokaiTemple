@@ -16,14 +16,22 @@ public class ButtonManager : MonoBehaviour
     public GameObject OptionCanvas;
     public int MenuIndicatorSpeed = 2000;
     float ButtonTimer = 0.0f;
-    public int ImageIndex = 0;
+    bool FirstFrame = true;
+
+    [Header("How To Play")]
     public GameObject[] HowToPlayImages;
     public GameObject ImageHolder;
-    bool FirstFrame = true;
+    public int ImageIndex = 0;
+
+    [Header("Audio")]
+    public AudioClip ClickSound;
+    public AudioClip NavSound;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         int children = transform.childCount;
         for (int i = 0; i < children; ++i)
         {
@@ -64,6 +72,7 @@ public class ButtonManager : MonoBehaviour
                     }
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
                     ButtonTimer = 0.0f;
+                    PlayNavSound();
                 }
 
                 // Menu Down
@@ -77,6 +86,7 @@ public class ButtonManager : MonoBehaviour
                     }
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
                     ButtonTimer = 0.0f;
+                    PlayNavSound();
                 }
             }
 
@@ -134,7 +144,7 @@ public class ButtonManager : MonoBehaviour
                         buttonIndex--;
                         buttonIndex = Mathf.Clamp(buttonIndex, 0, 2);
                         button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-
+                    PlayNavSound();
                     ButtonTimer = 0.0f;
                 }
 
@@ -144,7 +154,7 @@ public class ButtonManager : MonoBehaviour
                     buttonIndex++;
                     buttonIndex = Mathf.Clamp(buttonIndex, 0, 2);
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-
+                    PlayNavSound();
                     ButtonTimer = 0.0f;
 
                 }
@@ -158,9 +168,17 @@ public class ButtonManager : MonoBehaviour
 
     }
 
-
+    private void PlayNavSound()
+    {
+        audioSource.clip = NavSound;
+        audioSource.Play();
+    }
     void ButtonFunction(string buttonName)
     {
+        audioSource.clip = ClickSound;
+        audioSource.Play();
+
+
         // Main Menu
         if (buttonName == "Play")
         {

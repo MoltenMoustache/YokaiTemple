@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using XboxCtrlrInput;
 
@@ -15,6 +16,10 @@ public class ButtonManager : MonoBehaviour
     public GameObject OptionCanvas;
     public int MenuIndicatorSpeed = 2000;
     float ButtonTimer = 0.0f;
+    public int ImageIndex = 0;
+    public GameObject[] HowToPlayImages;
+    public GameObject ImageHolder;
+    bool FirstFrame = true;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +54,7 @@ public class ButtonManager : MonoBehaviour
             if (button[buttonIndex].GetComponent<ButtonBehavior>().IsMainMenu)
             {
                 // Menu Up
-                if (XCI.GetDPadUp(XboxDPad.Down))
+                if (XCI.GetDPadUp(XboxDPad.Down) || ((XCI.GetAxis(XboxAxis.RightStickY) < 0 || XCI.GetAxis(XboxAxis.LeftStickY) < 0) && ButtonTimer > 1.0f))
                 {
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                     buttonIndex++;
@@ -58,10 +63,11 @@ public class ButtonManager : MonoBehaviour
                         buttonIndex = 0;
                     }
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
+                    ButtonTimer = 0.0f;
                 }
 
                 // Menu Down
-                if (XCI.GetDPadUp(XboxDPad.Up))
+                if (XCI.GetDPadUp(XboxDPad.Up) || ((XCI.GetAxis(XboxAxis.RightStickY) > 0 || XCI.GetAxis(XboxAxis.LeftStickY) > 0) && ButtonTimer > 1.0f))
                 {
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
                     buttonIndex--;
@@ -70,171 +76,81 @@ public class ButtonManager : MonoBehaviour
                         buttonIndex = buttonTotal - 1;
                     }
                     button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
+                    ButtonTimer = 0.0f;
                 }
             }
 
             // Indicate button was pressed
-            if (XCI.GetButtonUp(XboxButton.A) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice && !button[buttonIndex].GetComponent<ButtonBehavior>().IsFunctionButton && ButtonTimer > 1.0f)
+            if (XCI.GetButtonUp(XboxButton.A) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsFunctionButton && ButtonTimer > 1.0f)
             {
 
                 button[buttonIndex].GetComponent<ButtonBehavior>().Pressed = true;
 
-                if (button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled)
-                    button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = false;
-                else
-                    button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = true;
+                button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled ? false : true;
 
-               ButtonTimer = 0.0f;
+                ButtonTimer = 0.0f;
             }
 
             // If Button Has a function
-            else if (XCI.GetButtonUp(XboxButton.A) && !button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice && ButtonTimer > 1.0f)
+            else if (XCI.GetButtonUp(XboxButton.A) && ButtonTimer > 1.0f)
             {
                 ButtonFunction(button[buttonIndex].GetComponent<ButtonBehavior>().ButtonName);
                 ButtonTimer = 0.0f;
-
             }
 
 
             // Options Only
             if (button[buttonIndex].GetComponent<ButtonBehavior>().IsOption)
             {
-                // MultiChoice
-                if (button[buttonIndex].GetComponent<ButtonBehavior>().IsMultiChoice)
+                if (FirstFrame)
                 {
-                    if (XCI.GetDPadUp(XboxDPad.Right))
-                    {
-                        ChoiceIndex++;
-                        if (ChoiceIndex > button[buttonIndex].GetComponent<ButtonBehavior>().Choices.Length - 1)
-                        {
-                            ChoiceIndex = 0;
-                        }
-                        button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice = button[buttonIndex].GetComponent<ButtonBehavior>().Choices[ChoiceIndex];
-                        button[buttonIndex].GetComponent<ButtonBehavior>().ChoiceDisplay.text = button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice;
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Left))
-                    {
-                        ChoiceIndex--;
-                        if (ChoiceIndex < 0)
-                        {
-                            ChoiceIndex = button[buttonIndex].GetComponent<ButtonBehavior>().Choices.Length - 1;
-                        }
-                        button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice = button[buttonIndex].GetComponent<ButtonBehavior>().Choices[ChoiceIndex];
-                        button[buttonIndex].GetComponent<ButtonBehavior>().ChoiceDisplay.text = button[buttonIndex].GetComponent<ButtonBehavior>().CurrentChoice;
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Down) && buttonIndex == 6)
-                    {
-                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                        buttonIndex++;
-                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Up) && buttonIndex == 6)
-                    {
-                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                        buttonIndex = 2;
-                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                    }
+                    ImageHolder.GetComponent<Image>().sprite = HowToPlayImages[ImageIndex].GetComponent<Image>().sprite;
+                    ImageHolder.GetComponent<Animator>().runtimeAnimatorController = HowToPlayImages[ImageIndex].GetComponent<Animator>().runtimeAnimatorController;
+                    FirstFrame = false;
                 }
-                // Non MultiCoice
-                else
+
+                if (XCI.GetButtonUp(XboxButton.B))
                 {
-                    if (XCI.GetDPadUp(XboxDPad.Left))
-                    {
-                        if (buttonIndex == 3 || buttonIndex == 4 || buttonIndex == 5)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex -= 3;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 8)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex--;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Right))
-                    {
-                        if (buttonIndex == 0 || buttonIndex == 1 || buttonIndex == 2)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex += 3;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 7)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex++;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Down))
-                    {
-                        if (buttonIndex == 2 || buttonIndex == 5)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 6;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 8)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 3;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 7)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 0;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 0 || buttonIndex == 1 || buttonIndex == 3 || buttonIndex == 4)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex++;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                    }
-
-                    else if (XCI.GetDPadUp(XboxDPad.Up))
-                    {
-                        if (buttonIndex == 6)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 2;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 8 || buttonIndex == 7)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 6;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 0)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 7;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 3)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex = 8;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                        else if (buttonIndex == 1 || buttonIndex == 2 || buttonIndex == 4 || buttonIndex == 5)
-                        {
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
-                            buttonIndex--;
-                            button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
-                        }
-                    }
+                    OptionCanvas.SetActive(OptionCanvas.activeSelf == false ? true : false);
+                    button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled ? false : true;
+                    button[buttonIndex].GetComponent<ButtonBehavior>().Pressed = false;
+                    ButtonFunction("Close");
                 }
+
+                // Indicate button was pressed
+                if (XCI.GetButtonUp(XboxButton.A) && button[buttonIndex].GetComponent<ButtonBehavior>().IsFunctionButton && ButtonTimer > 1.0f)
+                {
+
+                    button[buttonIndex].GetComponent<ButtonBehavior>().Pressed = true;
+
+                    button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled = button[buttonIndex].GetComponent<ButtonBehavior>().OptionEnabled ? false : true;
+                    ButtonFunction(button[buttonIndex].GetComponent<ButtonBehavior>().ButtonName);
+                    ButtonTimer = 0.0f;
+                }
+
+                if (XCI.GetDPadUp(XboxDPad.Left) || ((XCI.GetAxis(XboxAxis.RightStickX) < 0 || XCI.GetAxis(XboxAxis.LeftStickX) < 0) && ButtonTimer > 1.0f))
+                {
+                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
+                        buttonIndex--;
+                        buttonIndex = Mathf.Clamp(buttonIndex, 0, 2);
+                        button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
+
+                    ButtonTimer = 0.0f;
+                }
+
+                if (XCI.GetDPadUp(XboxDPad.Right) || ((XCI.GetAxis(XboxAxis.RightStickX) > 0 || XCI.GetAxis(XboxAxis.LeftStickX) > 0) && ButtonTimer > 1.0f))
+                {
+                    button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
+                    buttonIndex++;
+                    buttonIndex = Mathf.Clamp(buttonIndex, 0, 2);
+                    button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
+
+                    ButtonTimer = 0.0f;
+
+                }
+
+                button[0].GetComponent<ButtonBehavior>().IsDisabled = (ImageIndex == 0 ? true : false);
+                button[2].GetComponent<ButtonBehavior>().IsDisabled = (ImageIndex == HowToPlayImages.Length - 1 ? true : false);
             }
 
 
@@ -248,16 +164,13 @@ public class ButtonManager : MonoBehaviour
         // Main Menu
         if (buttonName == "Play")
         {
-
-                SceneManager.LoadSceneAsync(1);
-
-
-
+           SceneManager.LoadSceneAsync(1);
         }
 
-        if (buttonName == "Options")
+        if (buttonName == "How To Play")
         {
             OptionCanvas.SetActive(true);
+            ImageIndex = 0;
             IsDisabled = true;
         }
 
@@ -266,14 +179,32 @@ public class ButtonManager : MonoBehaviour
             Application.Quit();
         }
 
+        if (buttonName == "Next")
+        {
+            ImageIndex++;
+            ImageIndex = Mathf.Clamp(ImageIndex, 0, HowToPlayImages.Length - 1);
+            ImageHolder.GetComponent<Image>().sprite = HowToPlayImages[ImageIndex].GetComponent<Image>().sprite;
+            ImageHolder.GetComponent<Animator>().runtimeAnimatorController = HowToPlayImages[ImageIndex].GetComponent<Animator>().runtimeAnimatorController;
+        }
+
+        if (buttonName == "Previous")
+        {
+            ImageIndex--;
+            ImageIndex = Mathf.Clamp(ImageIndex, 0, HowToPlayImages.Length - 1);
+            ImageHolder.GetComponent<Image>().sprite = HowToPlayImages[ImageIndex].GetComponent<Image>().sprite;
+            ImageHolder.GetComponent<Animator>().runtimeAnimatorController = HowToPlayImages[ImageIndex].GetComponent<Animator>().runtimeAnimatorController;
+        }
+
         // Options
         if (buttonName == "Close")
         {
             button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = false;
             buttonIndex = 0;
+            ImageIndex = 0;
             button[buttonIndex].GetComponent<ButtonBehavior>().HighLighted = true;
             MainMenuCanvas.GetComponentInChildren<ButtonManager>().IsDisabled = false;
             transform.parent.gameObject.SetActive(false);
+            FirstFrame = true;
         }
 
     }

@@ -12,17 +12,12 @@ public class ButtonBehavior : MonoBehaviour
     public bool HighLighted = false;
     public bool Pressed = false;
     public bool IsFunctionButton = false;
+    public bool IsDisabled = false;
 
     // Options
-    public bool IsMultiChoice = false;
     public Color DefaultColor = Color.white;
     public float ButtonTimer = -10.0f;
-    public string[] Choices = null;
-    public string CurrentChoice = "";
-    public TextMeshProUGUI ChoiceDisplay;
     public bool OptionEnabled = false;
-    public Image Indicator = null;
-    public Vector3 DefaultIndicatorSize;
 
     // Start is called before the first frame update
     void Start()
@@ -33,20 +28,6 @@ public class ButtonBehavior : MonoBehaviour
         {
             ButtonName = transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
         }
-
-
-        if (ButtonName == "Resolution")
-        {
-            Choices = new string[3] {"1920 x 1080", "480 x 720", "999 x 111" };
-        }
-
-        if (IsMultiChoice)
-        {
-            CurrentChoice = Choices[0];
-        }
-
-        if (Indicator != null)
-            DefaultIndicatorSize = Indicator.transform.localScale;
     }
 
     // Update is called once per frame
@@ -67,22 +48,6 @@ public class ButtonBehavior : MonoBehaviour
         {
             GetComponent<Image>().color = DefaultColor;
         }
-
-        if (Indicator != null)
-        {
-            if (OptionEnabled)
-            {
-                Indicator.transform.localPosition = new Vector3(2.5f, -2.5f, 0.0f);
-                Indicator.transform.localScale = new Vector3(DefaultIndicatorSize.x - 0.1f, DefaultIndicatorSize.y - 0.1f, DefaultIndicatorSize.z - 0.1f);
-            }
-            else
-            {
-                Indicator.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                Indicator.transform.localScale = DefaultIndicatorSize;
-            }
-        }
-
-
 
         // For the main menu buttons
         if (IsMainMenu)
@@ -113,20 +78,15 @@ public class ButtonBehavior : MonoBehaviour
         // For Options
         if (IsOption)
         {
-            if (HighLighted && !Pressed)
+            if (HighLighted)
             {
-                GetComponent<Image>().color = Color.grey;
+                GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f);
             }
 
-            if (OptionEnabled && Indicator != null)
+            if (IsDisabled)
             {
-                Indicator.color = Color.green;
+                GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f);
             }
-            else if (Indicator != null)
-            {
-                Indicator.color = Color.red;
-            }
-
         }
 
 

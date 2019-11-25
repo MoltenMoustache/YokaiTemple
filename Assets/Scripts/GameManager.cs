@@ -192,14 +192,12 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1.5f);
             gameCanvas.SetActive(false);
-            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
             endingCanvas.SetActive(true);
         }
         else
         {
             yield return new WaitForSeconds(1.5f);
             gameCanvas.SetActive(false);
-            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
             endingCanvas.SetActive(true);
         }
     }

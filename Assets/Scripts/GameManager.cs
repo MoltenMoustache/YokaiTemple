@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
     int currentPlayerCount;
 
     [Header("References")]
-    public GameObject playerPrefab;
     [SerializeField] GameObject gameCanvas;
     [SerializeField] GameObject endingCanvas;
     [SerializeField] GameObject MainMenuButton;
@@ -65,6 +64,9 @@ public class GameManager : MonoBehaviour
 
     void InitializePlayers()
     {
+        // Resets max ritual
+        maxRitual = 0;
+
         // Gets the number of connected controllers
         int playersConnected = XCI.GetNumPluggedCtrlrs();
         
@@ -192,12 +194,14 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1.5f);
             gameCanvas.SetActive(false);
+            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
             endingCanvas.SetActive(true);
         }
         else
         {
             yield return new WaitForSeconds(1.5f);
             gameCanvas.SetActive(false);
+            MainMenuButton.GetComponent<UnityEngine.UI.Button>().Select();
             endingCanvas.SetActive(true);
         }
     }

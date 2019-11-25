@@ -20,6 +20,10 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] protected float attackCooldown;
     protected Animator animator;
 
+    [Header("Audio")]
+    public AudioClip attackClip;
+    AudioSource audioSource;
+
     private void Start()
     {
         InitializeEnemy();
@@ -93,9 +97,16 @@ public class EnemyAI : MonoBehaviour
 
     protected virtual IEnumerator PlayAttackAnimation()
     {
+        // Plays animation
         animator.SetBool("isAttacking", true);
-        AnimationClip clip = animator.runtimeAnimatorController.animationClips[0];
-        yield return new WaitForSeconds(clip.length);
+        // Plays sound if it exists
+        if (attackClip)
+            audioSource.PlayOneShot(attackClip, 0.75f);
+
+        // cooldown
+        yield return new WaitForSeconds(0.5f);
+
+        // Disable animation
         animator.SetBool("isAttacking", false);
     }
     protected virtual IEnumerator Attack()
@@ -142,7 +153,10 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
+        // get animator and audio source components
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
         // Sets tag
         tag = "Enemy";
     }

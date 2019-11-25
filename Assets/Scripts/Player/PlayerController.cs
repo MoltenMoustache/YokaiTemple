@@ -38,10 +38,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool hasFinishedRitual;
 
     // Reviving Variables
+    [Header("Ritual")]
+    public RitualSite ritualSite;
     [HideInInspector] public bool isDown;
     [HideInInspector] public PlayerController downedPlayer;
     Slider reviveBar;
     bool isBeingRevived;
+    [HideInInspector] Image revivePrompt;
 
     [Header("Health")]
     public int maxHealth;     // public for the ^ header
@@ -59,14 +62,19 @@ public class PlayerController : MonoBehaviour
     // Other References
     Rigidbody rb;
 
+    [Header("Audio")]
+    public AudioClip attackClip;
+    public AudioClip damageClip;
+    AudioSource audioSource;
+
     // UI
-    [SerializeField] GameObject hudObject;
+    [Header("Other References")]
+    public GameObject hudObject;
     Image interactPrompt;
 
     bool isGodMode;
     [SerializeField] float godmodeDuration;
 
-    RitualSite ritualSite;
 
     // Start is called before the first frame update
     void Start()
@@ -77,9 +85,11 @@ public class PlayerController : MonoBehaviour
 
         // Reference to Animator component
         animator = GetComponent<Animator>();
+        Debug.Log(animator.name);
 
         attackCone = transform.Find("Attack Cone").GetComponent<AttackCone>();
 
+        audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth;
     }
 
@@ -93,6 +103,7 @@ public class PlayerController : MonoBehaviour
             hudObject.SetActive(true);
             ritualBar = hudObject.transform.Find("Progress Slider").GetComponent<Slider>();
             reviveBar = hudObject.transform.Find("Revive Bar").GetComponent<Slider>();
+            revivePrompt = hudObject.transform.Find("Revive Prompt").GetComponent<Image>();
             interactPrompt = hudObject.transform.Find("Interact Prompt").GetComponent<Image>();
             healthIconParent = hudObject.transform.Find("Health Icons").gameObject;
 
@@ -102,6 +113,8 @@ public class PlayerController : MonoBehaviour
                 healthIcons.Add(child.gameObject);
                 healthIcons.Remove(healthIconParent);
             }
+
+            canAttack = true;
         }
     }
 
@@ -110,8 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         // https://www.youtube.com/watch?v=dQw4w9WgXcQ
         // Followed this tutorial ^
-
-
+        
         #region Debug Controls
         if (XCI.GetButtonDown(XboxButton.LeftBumper, player) || Input.GetKeyDown(KeyCode.Q))
         {
@@ -161,7 +173,7 @@ public class PlayerController : MonoBehaviour
             // If the player presses Y in the ritual and theres no enemies in their attack cone, start casting the ritual.
             if (XCI.GetButtonDown(XboxButton.Y, player) && !isCasting && canAttack)
             {
-                CheckForNullEnemies();
+                //CheckForNullEnemies();
 
                 if (attackCone.enemiesInRange.Count == 0)
                 {
@@ -176,6 +188,18 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     Debug.LogWarning("Enemies in range or cant attack...");
+                }
+            }
+            else
+            {
+                if (!canAttack)
+                {
+                    Debug.LogWarning("can't attack");
+                }
+
+                if (isCasting)
+                {
+                    Debug.LogWarning("is casting");
                 }
             }
 
@@ -200,6 +224,10 @@ public class PlayerController : MonoBehaviour
             {
                 MoveInteractPrompt();
             }
+
+        }
+        else
+        {
 
         }
 
@@ -450,6 +478,7 @@ public class PlayerController : MonoBehaviour
     public void StopReviving()
     {
         isBeingRevived = false;
+        downedPlayer.revivePrompt.enabled = false;
     }
 
     // If there is a downed player in this player's range, begin reviving the player
@@ -460,11 +489,19 @@ public class PlayerController : MonoBehaviour
         {
             // Gets reference to downed player's revive bar
             Slider bar = downedPlayer.reviveBar;
+            
+            // Activate the revive prompt and move it to player
+            Image prompt = downedPlayer.revivePrompt;
+            prompt.enabled = true;
+            Vector3 offset = new Vector3(0f, 30f, 0f);
+            prompt.transform.position = Camera.main.WorldToScreenPoint(downedPlayer.transform.position);
+            prompt.transform.position += offset;
 
             // If the player holds the X button on the downed player...
             if (XCI.GetButton(XboxButton.X, player))
             {
                 downedPlayer.Revive();
+                prompt.enabled = false;
                 // if the player is revived, lose the reference to the downed player
                 if (reviveBar.value >= reviveBar.maxValue)
                 {
@@ -476,6 +513,7 @@ public class PlayerController : MonoBehaviour
             {
                 // Stop reviving player
                 downedPlayer.StopReviving();
+                prompt.enabled = true;
                 // If the button is let go, the progress is reset
                 bar.value -= 0.0025f;
                 if (bar.value <= bar.minValue)
@@ -515,6 +553,7 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("Downed player entered range");
                 downedPlayer = other.GetComponent<PlayerController>();
+                downedPlayer.revivePrompt.enabled = true;
             }
         }
     }
@@ -538,7 +577,11 @@ public class PlayerController : MonoBehaviour
         if (!isGodMode)
         {
             currentHealth -= a_dmg;
-            Debug.Log("Damage taken!" + a_dmg);
+
+            // Plays Audio
+            audioSource.PlayOneShot(damageClip, 0.75f);
+            
+            // If player's health is reduced to zero
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
@@ -615,6 +658,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator PlayAnimation(string a_animType, float a_animCooldown)
     {
         animator.SetBool(a_animType, true);
+
+        // Plays sound
+        audioSource.PlayOneShot(attackClip, 0.75f);
         yield return new WaitForSeconds(a_animCooldown);
         animator.SetBool(a_animType, false);
     }

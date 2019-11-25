@@ -12857,6 +12857,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
         type: 3}
+      propertyPath: playerPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 4556242157339768837, guid: 0278c3c391e902247ac2cf7314cb73f3,
@@ -12876,6 +12881,30 @@ PrefabInstance:
       propertyPath: MainMenuButton
       value: 
       objectReference: {fileID: 757364157}
+    - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4556242157339768837, guid: 0278c3c391e902247ac2cf7314cb73f3,
+        type: 3}
+    - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4556242157339768837, guid: aaa0dba2af7b485438cb7426fe9cd6e5,
+        type: 3}
+    - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4556242157339768837, guid: 6e691a913842d66489c6f65c1fda263f,
+        type: 3}
+    - target: {fileID: 1722401208148997260, guid: 40def4e25a23a194e8ee56255e3aca6c,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4556242157339768837, guid: 626d86f5bc2420844a0ce2c82ee14792,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40def4e25a23a194e8ee56255e3aca6c, type: 3}
 --- !u!1001 &9186162642422173818

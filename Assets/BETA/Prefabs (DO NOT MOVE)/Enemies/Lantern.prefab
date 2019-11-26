@@ -434,8 +434,8 @@ MonoBehaviour:
   speed: 0
   stoppingDistance: 0
   damage: 1
-  attackCooldown: 3
-  attackClip: {fileID: 0}
+  attackCooldown: 2
+  attackClip: {fileID: 8300000, guid: dc433a7f1e9320e43831527c9c3a5a15, type: 3}
   projectile: {fileID: 3677688869269054125, guid: 0808ea65436015e4a80b3922b97d2458,
     type: 3}
   projectileForce: 3

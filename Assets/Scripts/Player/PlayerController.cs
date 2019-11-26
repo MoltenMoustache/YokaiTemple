@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     [Header("Audio")]
     public AudioClip attackClip;
     public AudioClip damageClip;
+    public AudioClip deathClip;
+    [SerializeField] float audioVolume = 0.75f;
     AudioSource audioSource;
 
     // UI
@@ -124,33 +126,6 @@ public class PlayerController : MonoBehaviour
         // https://www.youtube.com/watch?v=dQw4w9WgXcQ
         // Followed this tutorial ^
         
-        #region Debug Controls
-        if (XCI.GetButtonDown(XboxButton.LeftBumper, player) || Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log("Hello!");
-            TakeDamage(5);
-        }
-
-        if (XCI.GetButtonDown(XboxButton.RightBumper, player) || Input.GetKeyDown(KeyCode.E))
-        {
-            RevivePlayer(true);
-        }
-
-        if (XCI.GetButtonDown(XboxButton.DPadDown, player) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            TakeDamage(1);
-        }
-
-        if (XCI.GetButtonDown(XboxButton.DPadLeft, player))
-        {
-            TakeDamage(2);
-        }
-
-        if (XCI.GetButtonDown(XboxButton.DPadUp, XboxController.First) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            HealDamage(1);
-        }
-        #endregion
 
         // Gets the axis
         verticalAxis = XCI.GetAxis(XboxAxis.LeftStickY, player);
@@ -218,7 +193,7 @@ public class PlayerController : MonoBehaviour
                     StopCasting(true);
                 }
             }
-            
+
             // UI
             if (interactPrompt.color != Color.clear)
             {
@@ -289,8 +264,8 @@ public class PlayerController : MonoBehaviour
                 StopCasting(false);
             }
 
+            ToggleInteractPrompt(false);
             ritualSite = null;
-            //ToggleInteractPrompt(false);
         }
     }
 
@@ -422,10 +397,21 @@ public class PlayerController : MonoBehaviour
 
             animator.SetBool("isDeath", true);
 
+            // Plays sound
+            audioSource.PlayOneShot(deathClip, audioVolume);
+
             // Make the bar follow the player
             Vector3 offset = new Vector3(0f, 30f, 0f);
             reviveBar.transform.position = Camera.main.WorldToScreenPoint(transform.position);
             reviveBar.transform.position += offset;
+
+            // Activate the revive prompt and move it to player
+            Image prompt = revivePrompt;
+            // Make the prompt appear on player
+            prompt.enabled = true;
+            Vector3 promptOffset = new Vector3(0f, 30f, 0f);
+            prompt.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+            prompt.transform.position += promptOffset;
 
             // Enable kinematic on Rigidbody to prevent movement
             rb.isKinematic = true;
@@ -451,6 +437,8 @@ public class PlayerController : MonoBehaviour
 
             // Disable the revive bar object
             reviveBar.gameObject.SetActive(false);
+            // DIsable the revive button
+            revivePrompt.enabled = false;
 
             // Disable kinematic on Rigidbody to allow movement
             rb.isKinematic = false;
@@ -465,6 +453,8 @@ public class PlayerController : MonoBehaviour
     {
         isBeingRevived = true;
 
+        revivePrompt.enabled = false;
+
         // Slowly increase the bar
         reviveBar.value += 0.005f;
         if (reviveBar.value >= reviveBar.maxValue)
@@ -478,7 +468,6 @@ public class PlayerController : MonoBehaviour
     public void StopReviving()
     {
         isBeingRevived = false;
-        downedPlayer.revivePrompt.enabled = false;
     }
 
     // If there is a downed player in this player's range, begin reviving the player
@@ -489,19 +478,12 @@ public class PlayerController : MonoBehaviour
         {
             // Gets reference to downed player's revive bar
             Slider bar = downedPlayer.reviveBar;
-            
-            // Activate the revive prompt and move it to player
-            Image prompt = downedPlayer.revivePrompt;
-            prompt.enabled = true;
-            Vector3 offset = new Vector3(0f, 30f, 0f);
-            prompt.transform.position = Camera.main.WorldToScreenPoint(downedPlayer.transform.position);
-            prompt.transform.position += offset;
+
 
             // If the player holds the X button on the downed player...
             if (XCI.GetButton(XboxButton.X, player))
             {
                 downedPlayer.Revive();
-                prompt.enabled = false;
                 // if the player is revived, lose the reference to the downed player
                 if (reviveBar.value >= reviveBar.maxValue)
                 {
@@ -513,7 +495,7 @@ public class PlayerController : MonoBehaviour
             {
                 // Stop reviving player
                 downedPlayer.StopReviving();
-                prompt.enabled = true;
+                
                 // If the button is let go, the progress is reset
                 bar.value -= 0.0025f;
                 if (bar.value <= bar.minValue)
@@ -564,7 +546,9 @@ public class PlayerController : MonoBehaviour
         {
             if (other.GetComponent<PlayerController>().isDown)
             {
+                downedPlayer = other.GetComponent<PlayerController>();
                 downedPlayer.StopReviving();
+                downedPlayer.revivePrompt.enabled = false;
                 downedPlayer = null;
             }
         }
@@ -579,8 +563,8 @@ public class PlayerController : MonoBehaviour
             currentHealth -= a_dmg;
 
             // Plays Audio
-            audioSource.PlayOneShot(damageClip, 0.75f);
-            
+            audioSource.PlayOneShot(damageClip, audioVolume);
+
             // If player's health is reduced to zero
             if (currentHealth <= 0)
             {
@@ -660,7 +644,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(a_animType, true);
 
         // Plays sound
-        audioSource.PlayOneShot(attackClip, 0.75f);
+        audioSource.PlayOneShot(attackClip, audioVolume);
         yield return new WaitForSeconds(a_animCooldown);
         animator.SetBool(a_animType, false);
     }

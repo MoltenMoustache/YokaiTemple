@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using XboxCtrlrInput;
 
 public class EndCanvasScript : MonoBehaviour
 {
     public GameObject[] ButtonObjects;
     bool FirstFrame = true;
+    int index = 0;
     public void Awake()
     {
         ButtonObjects[0].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Replay);
@@ -22,13 +24,26 @@ public class EndCanvasScript : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-
+    public void Clicked()
+    {
+        if (index == 0)
+            Replay();
+        else
+            MainMenu();
+    }
     private void Update()
     {
-        if (FirstFrame)
+
+
+
+        if (XCI.GetButton(XboxButton.A, XboxController.All))
         {
-            ButtonObjects[0].GetComponent<UnityEngine.UI.Button>().Select();
-            FirstFrame = false;
+            Replay();
+        }
+
+        if (XCI.GetButton(XboxButton.B, XboxController.All))
+        {
+            MainMenu();
         }
     }
 }

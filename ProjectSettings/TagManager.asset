@@ -16,6 +16,7 @@ TagManager:
   - P4HUD
   - LockedText
   - ButtonPrompt
+  - EnemySpawner
   layers:
   - Default
   - TransparentFX

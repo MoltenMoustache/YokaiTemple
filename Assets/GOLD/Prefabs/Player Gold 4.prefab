@@ -176,8 +176,10 @@ MonoBehaviour:
   attackCone: {fileID: 0}
   attackDelay: 0.25
   canAttack: 0
-  attackClip: {fileID: 0}
-  damageClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 24aaf85b31489a347b0a0574026b98b7, type: 3}
+  damageClip: {fileID: 8300000, guid: 6ad7b20b39678314781f798292792a28, type: 3}
+  deathClip: {fileID: 8300000, guid: c4983f7ac17159a45b8a82acf4bd6ab3, type: 3}
+  audioVolume: 0.75
   hudObject: {fileID: 0}
   godmodeDuration: 0.15
 --- !u!136 &4556242157339768838

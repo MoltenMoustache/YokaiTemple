@@ -578,7 +578,7 @@ MonoBehaviour:
   stoppingDistance: 0
   damage: 1
   attackCooldown: 1
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: ae4b16722b035634988935bdcbbbdb60, type: 3}
 --- !u!195 &6776676157514064190
 NavMeshAgent:
   m_ObjectHideFlags: 0

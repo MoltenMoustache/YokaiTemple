@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\EndCanvasScript.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAI.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Enemy\LanternProjectile.cs" />
     <Compile Include="Assets\Scripts\Enemy\PounceAI.cs" />
     <Compile Include="Assets\Scripts\Enemy\Projectile.cs" />
